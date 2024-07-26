@@ -1,0 +1,46 @@
+.subject {
+    display: inline; 
+    cursor: pointer;
+    color: #007bff;
+    font-size: 19px;
+    font-weight: 400;
+  
+    &:hover {
+      color: #0d3b79;
+    }
+  }
+.text-grey{
+    color: #777777 ;
+}
+
+.content-cell {
+    position: relative; 
+    display: flex; 
+    right: 10px;
+    align-items: center; 
+    height: 100%; 
+    border: none; 
+    background-color: transparent;   
+}
+  .chip-python {
+    background-color: aquamarine;
+  }
+  
+  .chip-javascript {
+    background-color: yellow;
+  }
+  
+  .chip-java {
+    background-color: orange;
+  }
+  .selected {
+    color: #4caf50; /* success color */
+    border-color: #4caf50; /* success border color */
+  }
+
+  .Mui-disabled {
+    background-color: inherit !important; /* Maintain the original background color */
+    color: inherit !important; /* Maintain the original text color */
+    opacity: 1 !important; /* Ensure opacity remains the same */
+    
+}

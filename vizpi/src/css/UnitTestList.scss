@@ -1,0 +1,88 @@
+.scafold {
+    border: none;
+    height: 100%;
+    background-color: #ffffff;
+    padding: 10px 10px 0 10px;
+    // border: 2px solid #d2d2d2;
+    box-sizing: border-box;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+    margin: 0px 5px;
+    
+    .code-icon {
+      color: #008e1f;
+      margin-right: 8px; /* Add some space between the icon and the text */
+    }
+    
+    .title-container {
+      display: flex;
+      align-items: center; 
+    }
+
+    &::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: transparent;
+    }
+
+    &:hover::-webkit-scrollbar-thumb {
+      background: #ccc;
+    }
+
+   
+      .test-bar {
+        border: 1px solid #e1e1e1;
+        box-sizing: border-box;
+        box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+        border-radius: 1px;
+        display: flex;
+        justify-content: flex-start;
+        width: 100%;
+        margin-top: 10px;
+  
+        & > * {
+          margin-right: 5px;
+  
+          &:last-child {
+            margin-right: 0;
+          }
+        }
+      }
+      .btn {
+        width: 30%;
+      }
+      .form-control {
+        width: 20%;
+        height: 100%;
+  
+        .num-input,
+        .type-select {
+          height: 100% !important;
+  
+          input,
+          div,
+          label {
+            height: 100% !important;
+          }
+        }
+  
+        .type-select {
+          display: flex;
+          align-items: center;
+  
+          .MuiSelect-select.MuiSelect-select {
+            display: flex;
+            align-items: center;
+            height: 100%;
+          }
+        }
+      }
+    }
+  
+
+

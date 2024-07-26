@@ -1,0 +1,26 @@
+.outter-box {
+  display: flex;
+  flex-direction: column;
+  height: 100vh; 
+}
+
+.upper-box {
+  flex: 6; 
+  overflow: auto;
+}
+
+.lower-box {
+  flex: 4; 
+}
+
+.group-info-test {
+  border: none;
+  background-color: white;
+  border: 1px solid #e1e1e1;
+  box-sizing: border-box;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+}

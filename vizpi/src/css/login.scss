@@ -1,0 +1,112 @@
+$backgroundColor: #e0e0e0;
+$errorColor: #ff3b30;
+
+body {
+  background-color: $backgroundColor;
+}
+
+.formContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+
+  .formWrapper {
+    padding: 40px;
+    background-color: $backgroundColor;
+    border-radius: 30px;
+    box-shadow: -20px -20px 40px #c6c6c6, 20px 20px 40px #ffffff;
+    max-width: 400px;
+    width: 100%;
+    text-align: center;
+  }
+
+  .logo {
+    font-size: 2em;
+    color: #333;
+    margin-bottom: 30px;
+  }
+
+  .title {
+    color: #333;
+    margin-bottom: 40px;
+    font-size: 1.5em;
+  }
+
+  form {
+    input {
+      display: block;
+      width: 100%;
+      padding: 15px;
+      margin-bottom: 20px;
+      border: none;
+      border-radius: 30px;
+      background-color: $backgroundColor;
+      box-shadow: inset -4px -4px 8px #c6c6c6, inset 4px 4px 8px #ffffff;
+      font-size: 1em;
+      color: #333;
+
+      &:focus {
+        outline: none;
+        box-shadow: inset -2px -2px 4px #c6c6c6, inset 2px 2px 4px #ffffff;
+      }
+    }
+
+    button {
+      display: block;
+      width: 100%;
+      padding: 15px;
+      margin-bottom: 20px;
+      border: none;
+      border-radius: 30px;
+      background-color: $backgroundColor;
+      box-shadow: -4px -4px 8px #c6c6c6, 4px 4px 8px #ffffff;
+      font-size: 1em;
+      color: #333;
+      cursor: pointer;
+      transition: box-shadow 0.3s ease;
+
+      &:hover {
+        box-shadow: -2px -2px 4px #c6c6c6, 2px 2px 4px #ffffff;
+      }
+    }
+
+    span {
+      display: block;
+      color: $errorColor;
+      margin-bottom: 20px;
+    }
+  }
+  button {
+    display: block;
+    width: 100%;
+    padding: 15px;
+    margin-bottom: 20px;
+    border: none;
+    border-radius: 30px;
+    background-color: $backgroundColor;
+    box-shadow: -4px -4px 8px #c6c6c6, 4px 4px 8px #ffffff;
+    color: #333;
+    cursor: pointer;
+    transition: box-shadow 0.3s ease;
+
+    &:hover {
+      box-shadow: -2px -2px 4px #c6c6c6, 2px 2px 4px #ffffff;
+    }
+  }
+
+  p {
+    font-size: 0.9em;
+    color: #333;
+
+    a {
+      color: #333;
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}

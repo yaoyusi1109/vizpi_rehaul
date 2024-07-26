@@ -1,0 +1,122 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap');
+
+.session {
+  width: 80%;
+  margin: 0 auto;
+  margin-top: 50px;
+
+  .session-form {
+    padding: 40px;
+    background-color: #fff;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+
+    .session-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #2074d4;
+      padding: 5px 20px;
+      border-radius: 10px 10px 0 0;
+      margin: -40px -40px 40px -40px;
+      .session-menu {
+        display: flex;
+        justify-content: flex-start;
+      }
+    }
+
+      .MuiTypography-h6 {
+        display: flex;
+        align-items: center;
+        margin: 0.5em;
+      }
+
+      .user-profile {
+        display: flex;
+        align-items: center;
+
+        img {
+          box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+          border: 2px solid white;
+          background-color: #ddddf7;
+          height: 30px;
+          width: 30px;
+          border-radius: 50%;
+          object-fit: cover;
+        }
+
+        span {
+          margin: 0 10px;
+          font-size: 14px;
+          font-weight: 600;
+          color: #fff;
+        }
+
+        .btn {
+          padding: 5px 10px;
+          font-size: 14px;
+          color: #fff;
+          border: none;
+          border-radius: 5px;
+          box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+          cursor: pointer;
+          transition: background-color 0.3s ease-in-out;
+          margin-left: 10px;
+
+          &.red {
+            background-color: #ff4b5c;
+
+            &:hover {
+              background-color: #cc0000;
+            }
+          }
+
+          &.blue {
+            background-color: #4b5cff;
+
+            &:hover {
+              background-color: #1b1bf1;
+            }
+          }
+        
+      }
+    }
+
+    .MuiTable-root {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+
+      th,
+      td {
+        padding: 15px;
+        border: 1px solid #ddd;
+      }
+
+      th {
+        background-color: #f0f0f0;
+        text-align: left;
+      }
+    }
+
+    .MuiButton-containedPrimary {
+      margin-right: 10px;
+      background-color: #007bff;
+      color: #fff;
+
+      &:hover {
+        background-color: #0056b3;
+      }
+    }
+
+    .MuiButton-containedSecondary {
+      margin-right: 10px;
+      background-color: #dc3545;
+      color: #fff;
+
+      &:hover {
+        background-color: #c82333;
+      }
+    }
+  }
+}
