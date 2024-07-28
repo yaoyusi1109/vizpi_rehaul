@@ -1,0 +1,338 @@
+.class-info {
+  height: 100%;
+  border: none;
+  display: grid;
+  grid-template-columns: 2fr 1.5fr 1.5fr 0.5fr;
+  gap: 10px;
+
+  .group-passrate {
+    border: none;
+    height: 100%;
+    background-color: white;
+    border: 1px solid #e1e1e1;
+    box-sizing: border-box;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 15px;
+    display: flex;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 10px;
+
+    .group-info-test-content {
+      display: flex;
+      flex-direction: column;
+      grid-template-columns: 30% auto;
+      align-items: center;
+      width: 30%;
+
+      // .unit-test-container {
+      //   display: grid;
+      //   grid-template-columns: auto auto;
+      //   align-items: center;
+      // }
+      .pass_rate {
+        height: 100px;
+        display: flex;
+        align-items: center;
+
+        .CircularProgressbar-text {
+          font-size: 16px;
+        }
+      }
+    }
+
+    .user-view-container {
+      width: 70%;
+
+      .userView {
+        display: flex;
+        align-items: center;
+        padding: 10px;
+
+        .userViewHeader {
+          display: flex;
+          align-items: center;
+          flex-grow: 1; // allow this container to take available space
+          margin-right: 15px; // space between name and progress bars
+
+          img {
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border: 2px solid white;
+            background-color: #ddddf7;
+            height: 30px;
+            width: 30px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 5px;
+          }
+
+          .userName {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: calc(
+              100% - 40px
+            ); // Width minus the image and some space
+          }
+        }
+
+        .progressContainer {
+          flex-basis: 60%; // Here you can set a specific percentage based on your design needs
+
+          .progressBar {
+            position: relative;
+            margin-top: 5px;
+            width: 100%; // makes progressBar take full width of its parent: progressContainer
+            height: 15px;
+            background-color: #e3e3e3;
+            border-radius: 10px;
+            box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+
+            span {
+              position: absolute;
+              top: 50%;
+              left: 50%;
+              transform: translate(-50%, -50%);
+              font-family: 'Arial Rounded MT', 'VAG Rounded', sans-serif;
+              font-weight: 500;
+              color: #ffffff;
+              font-size: 16px;
+            }
+
+            .progressBarFill {
+              height: 100%;
+              transition: width 0.3s ease;
+              box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+              border-radius: 10px;
+
+              &.progressBarFill-red {
+                background: linear-gradient(
+                  to top,
+                  #ff3b30,
+                  lighten(#ff3b30, 15%)
+                );
+              }
+
+              &.progressBarFill-yellow {
+                background: linear-gradient(
+                  to top,
+                  #ffcc00,
+                  lighten(#ffcc00, 15%)
+                );
+              }
+
+              &.progressBarFill-green {
+                background: linear-gradient(
+                  to top,
+                  #34c759,
+                  lighten(#34c759, 15%)
+                );
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .hide-scroll-bar {
+    &::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: transparent;
+    }
+
+    &:hover::-webkit-scrollbar-thumb {
+      background: #ccc;
+    }
+  }
+
+  .code-issues {
+    border: none;
+    height: 100%;
+    background-color: #ffffff;
+    padding: 10px 25px 10px 25px;
+    border: 1px solid #e1e1e1;
+    box-sizing: border-box;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    .header {
+      width: 100%;
+      height: 20%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 1.2em;
+      font-weight: 600;
+      color: #333;
+    }
+
+    .issue-slider {
+      width: 100%;
+      .slick-prev:before,
+      .slick-next:before {
+        color: #a9a9a9;
+      }
+
+      .code-issue-card {
+        margin: 5px;
+      }
+    }
+
+    // .code-issues-grid {
+    //   display: grid;
+    //   grid-template-columns: auto auto auto;
+    //   gap: 10px;
+    // }
+
+    .card-header {
+      padding: 10px;
+    }
+  }
+
+  .group-info-test {
+    border: none;
+    height: 100%;
+    background-color: white;
+    border: 1px solid #e1e1e1;
+    box-sizing: border-box;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+    padding: 10px;
+
+    &::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: transparent;
+    }
+
+    &:hover::-webkit-scrollbar-thumb {
+      background: #ccc;
+    }
+
+    .header {
+      width: 100%;
+      height: 20%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 1.2em;
+      font-weight: 600;
+      color: #333;
+    }
+
+    .group-info-test-content {
+      display: grid;
+      grid-template-columns: 30% auto;
+      gap: 10px;
+      align-items: center;
+      // overflow: auto;
+      .pass_rate {
+        height: 100px;
+        display: flex;
+        align-items: center;
+
+        .CircularProgressbar-text {
+          font-size: 16px;
+        }
+      }
+
+      .test-big-div {
+        display: grid;
+        grid-template-columns: auto auto;
+
+        .unit-test-container {
+          display: grid;
+          grid-template-columns: auto;
+          align-items: center;
+        }
+      }
+    }
+  }
+
+  .setting-panel {
+    border: none;
+    height: 100%;
+    background-color: #ffffff;
+    padding: 10px;
+    border: 1px solid #e1e1e1;
+    box-sizing: border-box;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    &::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: transparent;
+    }
+
+    &:hover::-webkit-scrollbar-thumb {
+      background: #ccc;
+    }
+
+    button,
+    .MuiFormControlLabel-root {
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-weight: 500;
+      font-size: 0.9rem;
+      text-transform: none;
+      transition: background-color 0.3s, transform 0.2s;
+
+      &:hover {
+        transform: translateY(-1px);
+      }
+    }
+
+    .MuiButton-outlined {
+      &:hover {
+        background-color: #f7f7f7;
+      }
+    }
+
+    .MuiButton-contained {
+      &.action-btn {
+        background-color: #007aff; // Apple blue
+        color: white;
+
+        &:hover {
+          background-color: darken(#007aff, 5%);
+        }
+      }
+
+      &[color='secondary'] {
+        background-color: #ff3b30; // Apple red
+        color: white;
+
+        &:hover {
+          background-color: darken(#ff3b30, 5%);
+        }
+      }
+    }
+
+    .MuiFormControlLabel-labelPlacementStart {
+      flex-direction: row-reverse;
+      justify-content: space-between;
+    }
+  }
+}

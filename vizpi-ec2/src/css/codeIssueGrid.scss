@@ -1,0 +1,54 @@
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    background-color: transparent;
+}
+
+.grid-header {
+    font-weight: bold;
+    text-align: center; /* default alignment */
+    padding: 16px;
+    background-color: transparent;
+    border-top: 1px solid #000000;
+    border-bottom: 1px solid #000000;
+    box-sizing: border-box;
+}
+
+.grid-item {
+    border: 1px solid transparent;
+    padding: 16px;
+    text-align: center; /* default alignment */
+    background-color: transparent;
+    margin-top: 8px; 
+}
+
+/* Alignment strategies for each column */
+
+/* 1st column - left alignment (adjust padding for desired effect) */
+.grid-container > *:nth-child(3n+1) {
+    text-align: left; 
+    padding-right: 32px; 
+}
+
+/* 2nd column - center alignment (no need to adjust if the default is center) */
+
+/* 3rd column - right alignment (adjust padding for desired effect) */
+.grid-container > *:nth-child(3n+3) {
+    text-align: right;
+    padding-left: 32px;
+}
+
+.grid-container > *:nth-child(6n) {
+    background-color: #68686849
+}
+
+.grid-container > *:nth-child(6n-1) {
+    background-color: #68686849
+}
+.grid-container > *:nth-child(6n-2) {
+    background-color: #68686849
+}
+
+.blockly-editora {
+    height: 10vh;   
+  }

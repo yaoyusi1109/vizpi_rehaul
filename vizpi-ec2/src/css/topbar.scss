@@ -1,0 +1,427 @@
+.top-bar {
+  background-color: $TOPBAR_BG;
+  border: 1px solid #e1e1e1;
+  border-radius: 15px;
+  width: 98%;
+  height: 30%;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  overflow: hidden;
+  margin-top: 10px;
+  padding-top: 10px;
+  margin-bottom: 10px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    // Chrome, Safari, etc.
+    display: none;
+  }
+
+  .tittle-bar {
+    justify-content: center;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    position: relative;
+
+    .bar-type {
+      height: 20%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      span {
+        color: #333;
+        font-size: 1.2em;
+        padding: 5px 10px;
+        margin-right: 20px;
+        border-radius: 10px;
+        transition: background-color 0.3s ease;
+        cursor: pointer;
+
+        &:hover {
+          background-color: #f5f5f5;
+        }
+      }
+
+      span.selected {
+        color: #007aff;
+        background-color: #ddd;
+        border-radius: 5px;
+      }
+    }
+
+    .user-profile {
+      position: absolute;
+      background-color: var(--topbar-bg);
+      right: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      display: flex;
+      padding: 5px 10px;
+      margin-top: 10px;
+      align-items: center;
+
+      img {
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        border: 2px solid white;
+        background-color: #ddddf7;
+        height: 30px;
+        width: 30px;
+        border-radius: 50%;
+        object-fit: cover;
+      }
+
+      span {
+        margin: 0 10px;
+        font-size: 14px;
+        font-weight: 600;
+        color: #333;
+      }
+
+      .btn {
+        padding: 5px 10px;
+        font-size: 14px;
+        margin-left: 10px;
+      }
+
+      .red {
+        background-color: #ff4b5c;
+        &:hover {
+          background-color: #cc0000;
+        }
+      }
+
+      .blue {
+        background-color: #4b5cff;
+        &:hover {
+          background-color: #1b1bf1;
+        }
+      }
+    }
+  }
+
+  .bar {
+    height: 70%;
+    margin: 10px;
+    padding: 5px;
+
+    .session-menu {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-around;
+      height: 80%;
+      background-color: $TOPBAR_BG;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+        Helvetica, Arial, sans-serif;
+      padding: 10px;
+      overflow: auto;
+
+      h2 {
+        color: #000;
+        font-size: 24px;
+        margin-right: 20px;
+      }
+
+      select {
+        width: 30%;
+        padding: 10px;
+        font-size: 16px;
+        margin-right: 20px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+      }
+
+      button {
+        width: 30%;
+        padding: 10px;
+        font-size: 16px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+
+        &:hover {
+          background-color: #0056b3;
+        }
+      }
+
+      .modal-background {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0, 0, 0, 0.5);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: opacity 0.3s ease-in-out; // Add transition for smooth appearance
+
+        .modal {
+          background-color: white;
+          padding: 30px; // Increase padding
+          border-radius: 15px; // Increase border radius
+          width: 50%;
+          max-width: 500px;
+          box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); // Add shadow for depth
+          transition: transform 0.3s ease-in-out; // Add transition for smooth appearance
+
+          h2 {
+            font-size: 24px; // Bigger and bolder text
+            font-weight: 600;
+            margin-bottom: 20px;
+          }
+
+          label {
+            font-size: 18px; // Bigger text
+            display: block; // Make the label and input/textarea appear on separate lines
+            margin-bottom: 10px;
+          }
+
+          input,
+          textarea {
+            width: 100%; // Full width input and textarea
+            border: none; // Remove border
+            padding: 10px; // Add some padding
+            box-sizing: border-box; // Make sure the width includes padding
+            background-color: #f0f0f0; // Light grey background
+            margin-bottom: 20px; // Add some margin to the bottom
+            font-size: 16px; // Bigger text
+          }
+
+          button {
+            background-color: #007aff; // iOS blue
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 20px;
+            font-size: 18px; // Bigger text
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); // Add shadow for depth
+            cursor: pointer;
+            transition: background-color 0.3s ease-in-out;
+
+            &:hover {
+              background-color: #0051c7;
+            }
+
+            &:last-child {
+              margin-left: 10px;
+            }
+          }
+        }
+      }
+    }
+
+    .header {
+      width: 100%;
+      height: 20%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 1.2em;
+      font-weight: 600;
+      color: #333;
+      padding-bottom: 10px;
+    }
+
+    @import 'topbar/test.scss';
+
+    .taskCard {
+      border: none;
+      height: 100%;
+      background-color: #ffffff;
+      padding: 10px 10px 0 10px;
+      border: 1px solid #e1e1e1;
+      box-sizing: border-box;
+      box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+      border-radius: 15px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+
+      .task-area {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        box-sizing: border-box;
+      }
+      textarea {
+        margin: 1px;
+        border: none;
+        height: 100%;
+        border-radius: 10px;
+        padding: 10px;
+        font-size: 1em;
+        line-height: 1.5em;
+        box-sizing: border-box;
+        resize: none;
+        display: flex;
+      }
+
+      .exerciseBar {
+        display: flex;
+        justify-content: flex-start;
+        height: 40px;
+        margin-top: 1%;
+        margin-bottom: 1%;
+
+        .action-btn {
+          height: 30px;
+          // background-color: #007aff;
+          color: #ffffff;
+          margin-left: 10px;
+          border: none;
+          border-radius: 15px;
+          padding: 5px 10px;
+          font-size: 1em;
+          transition: background-color 0.3s ease;
+          text-transform: none;
+
+          & + .action-btn {
+            margin-left: 20px;
+          }
+
+          &.red {
+            background-color: #ff3b30;
+
+            &:hover {
+              background-color: darken(#ff3b30, 20%);
+            }
+          }
+        }
+      }
+    }
+
+    @import 'topbar/classInfo.scss';
+
+    .task {
+      height: 100%;
+      border: none;
+      background-color: #ffffff;
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-sizing: border-box;
+
+      .task-area {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        box-sizing: border-box;
+      }
+      textarea {
+        margin: 1px;
+        border: none;
+        height: 100px;
+        border-radius: 10px;
+        padding: 10px;
+        font-size: 1em;
+        line-height: 1.5em;
+        box-sizing: border-box;
+        resize: none;
+        display: flex;
+      }
+
+      .exerciseBar {
+        display: flex;
+        justify-content: flex-start;
+        height: 100%;
+        margin-top: 1%;
+        margin-bottom: 1%;
+
+        .action-btn {
+          background-color: #007aff;
+          color: #ffffff;
+          border: none;
+          border-radius: 15px;
+          padding: 5px 10px;
+          font-size: 1em;
+          transition: background-color 0.3s ease;
+          text-transform: none;
+
+          &:hover {
+            background-color: darken(#007aff, 10%);
+          }
+
+          & + .action-btn {
+            margin-left: 20px;
+          }
+
+          &.red {
+            background-color: #ff3b30;
+
+            &:hover {
+              background-color: darken(#ff3b30, 20%);
+            }
+          }
+        }
+      }
+
+      .grouping-modal {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 9999;
+        background: rgba(0, 0, 0, 0.5); // Black background with 50% opacity
+
+        .modal-content {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          background: white; // White background
+          border-radius: 10px; // Rounded corners
+          padding: 20px; // Some padding
+          width: 80%; // Occupies 80% of the screen width
+          max-width: 500px; // But no more than 500px
+          position: relative; // Needed to correctly position the absolute positioned close button
+          box-sizing: border-box;
+        }
+
+        .grouping-modal-close-btn {
+          position: absolute;
+          top: 10px;
+          right: 10px;
+          // Customize your close button styles here
+        }
+
+        .grouping-btn {
+          background-color: #007aff; // Deep blue background
+          color: white; // White text
+          font-family: 'San Francisco', 'Helvetica Neue', Arial, sans-serif; // Apple-like fonts
+          border-radius: 12px; // Rounded corners
+          padding: 12px 24px; // Some padding
+          text-transform: uppercase; // Upper case letters
+          font-size: 14px; // Font size
+          border: none; // No border
+          outline: none; // No outline
+          cursor: pointer; // Cursor pointer on hover
+
+          &:hover {
+            background-color: #005cbf; // Slightly darker blue when hovering
+          }
+          &.red {
+            background-color: #ff3b30;
+
+            &:hover {
+              background-color: darken(#ff3b30, 20%);
+            }
+          }
+        }
+      }
+    }
+  }
+}

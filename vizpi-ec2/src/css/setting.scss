@@ -1,0 +1,120 @@
+.setting-panel {
+    border: none;
+    height: 100%;
+    background-color: #ffffff;
+    padding: 10px;
+    border: 1px solid #e1e1e1;
+    box-sizing: border-box;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 15px;
+    display: block;
+    gap: 5px;
+
+    &::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: transparent;
+    }
+
+    &:hover::-webkit-scrollbar-thumb {
+      background: #ccc;
+    }
+
+    button,
+    .MuiFormControlLabel-root {
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-weight: 500;
+      font-size: 0.9rem;
+      text-transform: none;
+      transition: background-color 0.3s, transform 0.2s;
+
+      &:hover {
+        transform: translateY(-1px);
+      }
+    }
+
+    .MuiButton-outlined {
+      &:hover {
+        background-color: #f7f7f7;
+      }
+    }
+
+    .MuiButton-contained {
+      &.action-btn {
+        background-color: #007aff; // Apple blue
+        color: white;
+
+        &:hover {
+          background-color: darken(#007aff, 5%);
+        }
+      }
+
+      &[color='secondary'] {
+        background-color: #ff3b30; // Apple red
+        color: white;
+
+        &:hover {
+          background-color: darken(#ff3b30, 5%);
+        }
+      }
+    }
+
+    .MuiFormControlLabel-labelPlacementStart {
+      flex-direction: row-reverse;
+      justify-content: space-between;
+    }
+
+    .grouping-border{
+      border: 1px solid #000000;
+      border-radius: 8px;
+      padding: 10px;
+      margin-bottom: 10px;
+    
+     
+        .modal-content {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          background: white; // White background
+          border-radius: 10px; // Rounded corners
+          padding: 20px; // Some padding
+          width: 80%; // Occupies 80% of the screen width
+          max-width: 500px; // But no more than 500px
+          position: relative; // Needed to correctly position the absolute positioned close button
+          box-sizing: border-box;
+        }
+
+        .grouping-btn {
+          background-color: #007aff; // Deep blue background
+          color: white; // White text
+          font-family: 'San Francisco', 'Helvetica Neue', Arial, sans-serif; // Apple-like fonts
+          border-radius: 12px; // Rounded corners
+          padding: 12px 24px; // Some padding
+          text-transform: uppercase; // Upper case letters
+          font-size: 14px; // Font size
+          border: none; // No border
+          outline: none; // No outline
+          cursor: pointer; // Cursor pointer on hover
+
+          &:hover {
+            background-color: #005cbf; // Slightly darker blue when hovering
+          }
+          &.red {
+            background-color: #ff3b30;
+
+            &:hover {
+              background-color: darken(#ff3b30, 20%);
+            }
+          }
+        }
+
+        .auto-grouping{
+          display: grid;
+          grid-template-columns: auto auto auto;
+        }
+    }
+  }
