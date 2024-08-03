@@ -1,0 +1,107 @@
+.about-us{
+
+    .header-container {
+        padding-top: 30px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        margin: 20px auto;
+        width: 70%;
+        text-align: center;
+
+        .header-text {
+            font-size: 50px;
+            font-weight: 500;
+            margin-bottom: 20px;
+            
+        }
+        .intro-text{
+            width: 100%;
+            font-size: 16px;
+            color: #5a5a5a;
+            padding: 0 0 25px 0 ;
+        }
+    }
+
+
+    .profile-container {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        grid-row-gap: 30px; 
+        grid-column-gap: 30px; 
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        margin: auto;
+        width: 70%;
+        height: 100%;
+        // padding:30px;
+
+        .profile {
+            position: relative; 
+            background-color: white;
+            padding: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            text-align: center;
+            color: rgb(86, 86, 86);
+            font-weight: bold;
+            font-size: 20px;
+            height: 280px;
+
+            border-radius: 10px;
+            transition: background-color 0.3s, box-shadow 0.3s, transform 0.3s; 
+
+
+
+            .profile-pic {
+                position: absolute;
+                top: 5%;
+                left: 10%;
+                width: 80%;
+                height: 65%;
+                background-size: cover;
+                background-repeat: no-repeat;
+                background-position: center; 
+                opacity: 1; 
+                z-index: 0;
+            }
+
+            .profile-name {
+                position: absolute;
+                top: 75%;
+                left: 10%;
+                width: 100%;
+                display: flex;
+                justify-content: left;
+                z-index: 1;
+                font-size: 18px;
+                color: black;
+                cursor: pointer;
+                text-decoration: none; 
+                &:hover {
+                    color: #0084ff;
+                    text-decoration: underline; 
+                  }
+
+            }
+            .profile-description {
+                position: absolute;
+                top: 85%;
+                left: 10%;
+                width: 100%;
+                display: flex;
+                justify-content: left;
+                z-index: 1;
+                font-size: 14px;
+
+            }
+        }
+        
+    }
+
+}

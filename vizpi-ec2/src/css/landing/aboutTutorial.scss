@@ -1,0 +1,117 @@
+
+.tutorial-wrapper{
+  position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    height: 80%;
+    // border-radius: 20px;
+    box-shadow: 24;
+    border: 1px solid #acacac;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    overflow-y: auto;
+    padding: 30px;
+
+
+  .tutorial-close{
+    
+   
+      top: calc(1 * var(--IconButton-size));
+      right: calc(1 * var(--IconButton-size));
+      box-shadow: 0 2px 12px 0 rgba(0 0 0 / 0.2);
+      border-radius: 50%;
+
+  }
+  
+
+  .sidebar {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    padding: 20px;
+    overflow-y: auto;
+
+    .stickly-close-button{
+      padding:20px 10px 20px 10px;
+      color: #af3b3b;
+      border-left: 2px solid white; 
+      &:hover {
+        color: #651111;
+        border-left: 2px solid white; 
+      }
+    }
+    .active-step {
+      border-left: 2px solid #0064d0;
+      background-color: #f1f7fd;
+      color: #1b77df;
+      &:hover {
+        color: #1663bb;
+        border-left: 2px solid #0064d0; 
+      }
+  }
+
+
+    ul {
+      list-style-type: none;
+      padding: 0;
+
+      li {
+        margin:  0;
+
+        a {
+          display: block; /* Make links block-level elements */
+          text-decoration: none;
+          color: #313131;
+          transition: color 0.3s;
+          cursor: pointer;
+          padding: 10px;
+          font-size: 15px;
+          border-left: 2px solid white; 
+
+          &:hover {
+            color: #989898;
+            border-left: 2px solid #8e8e8e;
+          }
+        }
+      }
+    }
+}
+
+
+
+
+  .content {
+    overflow-y: auto;
+    border-radius: 20px;
+  }
+
+
+  .tutorial-step {
+    padding: 40px 60px 40px 50px;
+    margin-bottom: 20px;
+
+    .tutorial-modal-description{
+      font-size: 15px;
+      color: #5a5a5a;
+      padding: 10px 5px;
+      margin-bottom: 20px;
+      
+    }
+    .tutorial-modal-title{
+      font-weight: 400;
+      font-size: 40px;
+      color: #3c3c3c;
+      padding: 0 0 20px 0 ;
+      border-bottom: 1px solid #acacac;
+    }
+    
+  }
+  .tutorial-modal-login{
+    font-size: 15px;
+    color: #3c3c3c;
+    padding: 50px 50px 80px 50px;
+    border-top: 2px solid #acacac;
+    // text-align: center;
+  }
+}
