@@ -1,5 +1,15 @@
 # VizGroup: An AI-Assisted Event-Driven System for Real-Time Collaborative Programming Learning Analytics
 
+## TODO:
+Due Aug 9 10:00AM EST：
+1. 项目介绍页面前置：用户在登录之前应先看到项目介绍然后再登录
+2. 完善之前答案生成的问题
+3. 添加一个学生个人资料页面，学生可以在其中填写他们的基本信息（例如，年级、专业、性别，甚至上传个人照片）。将所有这些信息存储在我们的 AWS 数据库中，而不是 Firebase。这个可以拖到下周，不急这周四。
+4. 可以考虑优化下整体UI美学风格,视频再讨论。
+
+
+
+
 ## Introduction
 
 Programming instructors often conduct collaborative learning activities, like Peer Instruction, to foster a deeper understanding in students and enhance their engagement with learning. These activities, however, may not always yield productive outcomes due to the diversity of student mental models and their ineffective collaboration. In this work, we introduce VizGroup, an AI-assisted system that enables programming instructors to easily oversee students’ real-time collaborative learning behaviors during large programming courses. VizGroup leverages Large Language Models (LLMs) to recommend event specifications for instructors so that they can simultaneously track and receive alerts about key correlation patterns between various collaboration metrics and ongoing coding tasks.
