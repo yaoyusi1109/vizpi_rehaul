@@ -44,25 +44,17 @@ export default function CodeIssueList() {
 	}, [groupsInSession, session]);
 
 	useEffect(() => {
-		if (!session) return;
-	
+		if (!session) return
 		const updateQuizStats = async () => {
 			const quizStat = await getQuizData(session.id);
 			setQuizStats(quizStat);
-		};
-	
-		const enableQuiz = async () => { 
-			setQuizEnable(session?.enable_quiz);
-		};
+		}
+		const enableQuiz = async() => { 
+		  setQuizEnable(session?.enable_quiz)
+		}
 		updateQuizStats();
-		enableQuiz();
-			const delayUpdate = setTimeout(() => {
-			updateQuizStats();
-			enableQuiz();
-		}, 20000); 
-	
-		return () => clearTimeout(delayUpdate);
-	}, [session.stu_num, session.enable_quiz, session.id, session]);
+		enableQuiz()
+	}, [session]);
 	
 	const fetchLeaderboard = async () => {
 		let leaderboard = {}

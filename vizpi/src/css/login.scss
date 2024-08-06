@@ -11,21 +11,52 @@ body {
   align-items: center;
   height: 100vh;
   width: 100vw;
+  background-image: url("../assets/login1.png");
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
 
   .formWrapper {
     padding: 40px;
-    background-color: $backgroundColor;
-    border-radius: 30px;
-    box-shadow: -20px -20px 40px #c6c6c6, 20px 20px 40px #ffffff;
+    background-color: rgba(255, 255, 255, 0.3);
+    border-radius: 15px;
+    box-shadow: -5px -5px 15px #c6c6c6, 10px 20px 40px #ffffff;
     max-width: 400px;
     width: 100%;
     text-align: center;
+    backdrop-filter: blur(3px);
+    border: 1px solid rgba(255, 255, 255, 0.9);
+  }
+
+  @keyframes backgroundAni {
+    0% {
+      background-position: 200% 0;
+    }
+
+    100% {
+      background-position: 0 0;
+    }
   }
 
   .logo {
     font-size: 2em;
-    color: #333;
-    margin-bottom: 30px;
+    letter-spacing: 1px;
+    color: transparent;
+    font-weight: 500;
+    background-clip: text;
+    -webkit-background-clip: text;
+    background-size: 200% 200%;
+    background-position: 0 0;
+    animation: backgroundAni 3s linear infinite;
+    background-color: #52ACFF;
+    background-image: linear-gradient(91deg, #52ACFF 25%, #FFE32C 100%);
+  }
+
+
+
+  .loginForm {
+    margin-top: 18px;
+    box-sizing: border-box;
+    width: 100%;
   }
 
   .title {
@@ -41,16 +72,23 @@ body {
       padding: 15px;
       margin-bottom: 20px;
       border: none;
-      border-radius: 30px;
+      border-radius: 10px;
       background-color: $backgroundColor;
       box-shadow: inset -4px -4px 8px #c6c6c6, inset 4px 4px 8px #ffffff;
       font-size: 1em;
       color: #333;
+      box-sizing: border-box;
 
       &:focus {
         outline: none;
         box-shadow: inset -2px -2px 4px #c6c6c6, inset 2px 2px 4px #ffffff;
       }
+    }
+
+    .loginButton {
+      display: flex;
+      justify-content: center;
+      margin-top: 40px;
     }
 
     button {
@@ -59,7 +97,7 @@ body {
       padding: 15px;
       margin-bottom: 20px;
       border: none;
-      border-radius: 30px;
+      border-radius: 10px;
       background-color: $backgroundColor;
       box-shadow: -4px -4px 8px #c6c6c6, 4px 4px 8px #ffffff;
       font-size: 1em;
@@ -78,6 +116,7 @@ body {
       margin-bottom: 20px;
     }
   }
+
   button {
     display: block;
     width: 100%;

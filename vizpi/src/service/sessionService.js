@@ -106,6 +106,25 @@ export const setEnableQuizInSession = async (sessionId, quizEnable) => {
 	}
 }
 
+export const setCorrectAnswersSeesion = async (sessionId, correctAnswers) => {
+	if (!sessionId || !correctAnswers) {
+		return false
+	}
+	try {
+		return await axios
+			.put(sessionUrl + "/" + sessionId, {
+				session: {
+					correct_answers: correctAnswers,
+				},
+			}).then((response)=>{
+				return response.data.session[1][0].coorect_answers
+			})
+	} catch (error) {
+		console.error(error)
+		return false
+	}
+}
+
 export const addSession = async (crn, task, subject, type, creater_id) => {
 	const newSession = {
 		time: new Date(),
@@ -113,7 +132,7 @@ export const addSession = async (crn, task, subject, type, creater_id) => {
 		creater_id: creater_id,
 		task: task,
 		subject: subject,
-		enable_chat: type === "Helper/Helpee" || type === "Audio" || type === "Vizmental" ? true : false,
+		enable_chat: type === "Helper/Helpee" || type === "Audio" ? true : false,
 		grouped: type === "Helper/Helpee" || type === "Audio" ? true : false,
 		stu_num: 0,
 		group_round: 0,
@@ -276,25 +295,6 @@ export const setSessionEnableChat = async (sessionId, enableChat) => {
 			return false
 		})
 }
-export const setSessionEnableChatAndCloseSession = async (sessionId, enableChat, closeSessionType) => {
-	if (!sessionId || enableChat === undefined) return false;
-
-	try {
-		const response1 = await axios.put(sessionUrl + "/" + sessionId, {
-			session: {
-				enable_chat: enableChat,
-			},
-		});
-		const response2 = await axios.put(sessionUrl + "/" + sessionId + "/endChat", {
-			closeSessionType: closeSessionType
-		});
-		return response1.data.session[1][0].enable_chat;
-	} catch (error) {
-		console.error(error);
-		return false;
-	}
-};
-
 
 export const setSessionRegrouping = async (sessionId, regrouping) => {
 	if (!sessionId || regrouping === undefined) return false

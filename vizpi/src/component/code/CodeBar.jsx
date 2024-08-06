@@ -25,11 +25,6 @@ import { SessionContext } from '../../context/SessionContext'
 import { showToast } from '../commonUnit/Toast'
 import { SelectedGroupContext } from '../../context/SelectedGroupContext'
 import {getUserById} from '../../service/userService'
-import PlayArrowRoundedIcon from '@mui/icons-material/PlayArrowRounded';
-import HistoryIcon from '@mui/icons-material/History';
-import RestartAltIcon from '@mui/icons-material/RestartAlt';
-import AnalyticsIcon from '@mui/icons-material/Analytics';
-import HandshakeIcon from '@mui/icons-material/Handshake';
 
 //Passing runCode function down to CodeBar component. runCode function is defined in Code.jsx
 const CodeBar = ({ latestCodeId, runCode, isRunning }) => {
@@ -256,7 +251,7 @@ const CodeBar = ({ latestCodeId, runCode, isRunning }) => {
 
   return (
     <div className="codeBar">
-      <div>
+      <div className="codeBar">
       <div>
         <Dialog
             open={open}
@@ -368,44 +363,45 @@ const CodeBar = ({ latestCodeId, runCode, isRunning }) => {
             </DialogActions>
           </Dialog>
         </div>
-        <div style={{ marginLeft: '5px', marginRight: '5px', display: 'flex', justifyContent: 'space-evenly', alignContent:'center'}}>
         {currentUser.role === 3 ? (
           <>
+          
+            
             <button className="codeButton" onClick={runCode} disabled={isRunning}>
-              <PlayArrowRoundedIcon sx={{ marginRight: 1, color: '#00921A'}}/> Run
+              Run
             </button>
             <button className="codeButton" onClick={resetCode}>
-              <HistoryIcon  sx={{ marginRight: 1, color: '#EAAE00'}}/> Reset Code
+              Reset Code
             </button>
             {selectedCode?.passrate==100||(selectedCode?.creater_id!=currentUser.id&&selectedCode?.creater_id!=undefined) ? (
+              <>
                 <button className="codeButton" onClick={stats} disabled={isRunning}>
-                  <AnalyticsIcon sx={{ marginRight: 1, color: '#00A3EA'}}/> Get Stats
+                  Get Stats
                 </button>
+              </>
             ) : null}
-            
           </>
         ) : null}
 
         {currentUser.role === 3 && latestCodeId !== selectedCode?.id ? (
           <>
             <button className="codeButton" onClick={handleLatestCode}>
-              <RestartAltIcon  sx={{ marginRight: 1, color: '#2473DE'}}/> Latest code
+              Latest code
             </button>
           </>
         ) : null}
         {currentUser.role < 3 && selectedCode?.creater_id!=undefined ? (
           <>
             <button className="codeButton" onClick={stats} disabled={isRunning}>
-            <AnalyticsIcon sx={{ marginRight: 1, color: '#00A3EA'}}/> Get Stats
+                  Get Stats
             </button>
           </>
         ) : null}
-        </div>
       </div>
       {currentUser.role === 3 && session.type==="Helper/Helpee" && !waiting  ? (
         <div>
           <button className="codeButton" onClick={selectedCode?.passrate==100?addToHelpers:addToHelpees} disabled={isRunning}>
-            <HandshakeIcon sx={{ marginRight: 1, color: '#55D246'}}/> {selectedCode?.passrate==100?"Offer Help to Others":"Ask for help"}
+            {selectedCode?.passrate==100?"Offer Help to Others":"Ask for help"}
           </button>
         </div>
         

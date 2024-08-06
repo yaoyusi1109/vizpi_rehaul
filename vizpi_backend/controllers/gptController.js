@@ -149,3 +149,15 @@ exports.chatCompletion = async (req, res, next) => {
     res.status(500).send('Server error')
   }
 }
+
+
+exports.getCorrectAnswers = async (req,res,next) => {
+  const message = req.body.taskDescription
+  try {
+    const reply = await gptService.correctAnswers(message)
+    res.status(200).json(reply)
+  } catch (error) {
+    console.error('Failed to send message', error)
+    res.status(500).send('Server error')
+  }
+}

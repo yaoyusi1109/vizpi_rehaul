@@ -770,7 +770,7 @@ const CodeArea = ({ onCodeChange, runCode }) => {
           )}
         />
       )}
-      <div ref={codeRef} className="full-size" style={{ height: session.type?.startsWith("Blockly") ? "500px": "100%" }}>
+      <div ref={codeRef} className="full-size" style={{height:"500px"}}>
         {session.type?.startsWith("Blockly") && selectedCode!=null && (
           <span key={rerender}>
             {/* <BlocklyWorkspace 

@@ -70,7 +70,7 @@ const Home = React.memo(() => {
         })
         .catch((err) => {
           console.error(err)
-          navigate('/about')
+          navigate('/login')
         })
     } else {
       
@@ -85,7 +85,7 @@ const Home = React.memo(() => {
         })
       }
       else{
-        navigate('/about')
+        navigate('/login')
       }
     }
   }, [])

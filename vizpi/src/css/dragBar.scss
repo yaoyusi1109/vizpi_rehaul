@@ -1,17 +1,14 @@
 .sample-drag-bar {
     flex-shrink: 0;
     width: 5px;
-    // background-color: #d1d5db;
-    opacity: 0;
+    background-color: #d1d5db;
     cursor: col-resize;
-    background-color: none;
-    // transition: opacity 0.15s 0.15s ease-in-out;
+    transition: background-color 0.15s 0.15s ease-in-out;
   }
   
   .sample-drag-bar.sample-drag-bar--dragging,
   .sample-drag-bar:hover{
     background-color: #63B3ED;
-    opacity: 1;
   }
   
   .sample-drag-bar.sample-drag-bar--horizontal {

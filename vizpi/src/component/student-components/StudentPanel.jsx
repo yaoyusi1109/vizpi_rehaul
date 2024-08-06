@@ -27,7 +27,7 @@ import { SelectedCodeContext } from '../../context/SelectedCodeContext'
 import {
   getGroupByUser,
 } from '../../service/groupService'
-import Metacog from '../commonUnit/Metacog'
+
 
 const StudentPanel = () => {
   const { session } = useContext(SessionContext)
@@ -115,21 +115,21 @@ const StudentPanel = () => {
   return (
     <div
       className={
-        'flex flex-column bg-dark font-mono color-white max-screen-width overflow-hidden'
+        'div-height flex flex-column h-screen bg-dark font-mono color-white max-screen-width'
       }>
       {session?.grouped && !session.enable_chat && <ReviewWindow />}
       {quizEnable && <DescriptionQuizModal/>}
-      {session.type !== 'Vizmental'&& <PeerInstruction />}
-      <div className={'flex grow'} style ={{marginTop:5}}>
+      <PeerInstruction />
+      <div className={'flex grow'}>
         <div
           className={cn('shrink-0 contents', isFileDragging && 'dragging')}
           style={{ width: fileW }}>
-          <TaskCard />            
-          <TestList/>
+          <TaskCard />
+          <TestList />
         </div>
         <SampleSplitter isDragging={isFileDragging} {...fileDragBarProps} />
         {session.type === 'Vizmental' ? (<div className = {'flex grow'}>
-        <div className={'grow contents overflow-hidden'}>
+        <div className={'grow contents'}>
           <CodeStu />
           </div>
           <SampleSplitter
@@ -147,13 +147,13 @@ const StudentPanel = () => {
             </>
           </div>
         </div>) : (
-        <div className={'flex grow'} >
+        <div className={'flex grow'}>
           <div className={'grow bg-darker contents-chat'}>
             <>
               <SubmissionsProvider>
                 {session.grouped && <GroupPassRate />}
               </SubmissionsProvider>
-               <Chat /> 
+              <Chat />
             </>
           </div>
           <SampleSplitter

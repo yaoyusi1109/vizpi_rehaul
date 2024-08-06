@@ -52,15 +52,15 @@ app.use(passport.initialize())
 app.use(passport.session())
 setupSwagger(app)
 
-const privateKey = fs.readFileSync('certificate/private.key', 'utf8')
-const certificate = fs.readFileSync('certificate/certificate.crt', 'utf8')
-const caBundle = fs.readFileSync('certificate/ca_bundle.crt', 'utf8')
+// const privateKey = fs.readFileSync('certificate/private.key', 'utf8')
+// const certificate = fs.readFileSync('certificate/certificate.crt', 'utf8')
+// const caBundle = fs.readFileSync('certificate/ca_bundle.crt', 'utf8')
 
-const credentials = { key: privateKey, cert: certificate, ca: caBundle }
+// const credentials = { key: privateKey, cert: certificate, ca: caBundle }
 
 
-const server = https.createServer(credentials, app)
-// const server = http.createServer(app)
+// const server = https.createServer(credentials, app)
+const server = http.createServer(app)
 const io = socketIo(server, {
   cors: {
     origin: ['https://localhost:3000', 'http://localhost:3000', 'https://vizpi.org', 'https://vizpin.netlify.app', 'https://vizpi.netlify.app', 'https://vizpin.netlify.app', 'https://vizpi.netlify.app', 'https://vizpi-testing.netlify.app'],

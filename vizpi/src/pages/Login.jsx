@@ -33,10 +33,10 @@ const Login = () => {
     <div className="formContainer">
       <div className="formWrapper">
         <span className="logo">VizPI</span>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className='loginForm'>
           <input type="email" placeholder="email" />
           <input type="password" placeholder="password" />
-          <button>Sign in</button>
+          <div className='loginButton'><button>Sign in</button></div>
           <button>
           <Link to="/about">About</Link>
           </button>

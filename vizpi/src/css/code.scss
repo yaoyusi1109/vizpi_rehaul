@@ -7,10 +7,9 @@ $BG_COLOR: #f2f2f7; // Light gray color
 .code {
   overflow: hidden;
   background-color: $BG_COLOR; // Light background color
-
+  
     .codeOutputArea {
       height: 95%;
-      padding: 15px;
       width: 100%;
       min-height: 400px;
       resize: none;
@@ -27,7 +26,6 @@ $BG_COLOR: #f2f2f7; // Light gray color
       padding: 10px;
       padding-left: 0;
       padding-bottom: 5px;
-      padding-top:0;
       width: 100%;
       background-color: $BG_COLOR;
       flex-direction: row;
@@ -82,7 +80,7 @@ $BG_COLOR: #f2f2f7; // Light gray color
         font-size: 16px;
         border: none;
         border-radius: 5px;
-        background-color: #ffffff; // Light gray color
+        background-color: #f2f2f2; // Light gray color
         box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
         &:focus {
           outline: none;
@@ -162,7 +160,6 @@ $BG_COLOR: #f2f2f7; // Light gray color
     height: 100%;
     width: 100%;
     background-color: $BG_COLOR;
-    
 
     display: flex;
     overflow: visible;
@@ -175,7 +172,6 @@ $BG_COLOR: #f2f2f7; // Light gray color
       padding: 10px;
       padding-left: 0;
       padding-bottom: 5px;
-      padding-top:0;
       width: 100%;
       background-color: $BG_COLOR;
       flex-direction: row;
@@ -183,20 +179,16 @@ $BG_COLOR: #f2f2f7; // Light gray color
       align-items: center;
       // justify-content: space-between;
       .codeButton {
-        display: flex;
-        align-items: center; 
-        margin: 0 2px;
-        padding: 10px 16px;
-        background-color: #ffffff;
-        color: #000000;
+        padding: 6px 16px;
+        background-color: #1e854b;
+        color: #fff;
         border: none;
-        border-radius: 10px;
+        border-radius: 4px;
         cursor: pointer;
         transition: background-color 0.3s ease;
-        font-size: 16px;
 
         &:hover {
-          background-color: #d4d4d4;
+          background-color: #59d990;
         }
       }
 
@@ -240,7 +232,7 @@ $BG_COLOR: #f2f2f7; // Light gray color
         font-size: 16px;
         border: none;
         border-radius: 5px;
-        background-color: #ffffff; // Light gray color
+        background-color: #f2f2f2; // Light gray color
         box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
         &:focus {
           outline: none;
@@ -283,32 +275,13 @@ $BG_COLOR: #f2f2f7; // Light gray color
         font-size: 16px;
         border: none;
         border-radius: 5px;
-        background-color: #ffffff; // Light gray color
+        background-color: #f2f2f2; // Light gray color
         box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
       }
     }
   }
-  .codeOutputWrapper{
-    width: calc(100% - 10px);
-
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    overflow: visible;
-    border: 1px solid #dcdcdc;
-    background-color: #ffffff;
-    padding: 10px 10px 0px 10px;
-    box-sizing: border-box;
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
-    border-radius: 15px;
-    display: flex;
-    flex-direction: column;
-    overflow: auto;
-    margin: 0px 5px;
-    z-index: 1;
   
   .codeOutputArea {
-    padding: 15px;
     height: 100vh;
     width: 100%;
     resize: none;
@@ -316,45 +289,9 @@ $BG_COLOR: #f2f2f7; // Light gray color
     font-size: 16px;
     border: none;
     border-radius: 5px;
-    overflow-y: auto;
-    background-color: rgb(255, 255, 255); // Light gray color
+    background-color: rgb(255, 252, 252); // Light gray color
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
   }
-
-  .thought {
-    display: flex;
-    background-color: #f2f2f2;
-    padding: 20px;
-    border-radius: 50px;
-    min-width: 40px;
-    max-width: 70%;
-    min-height: 40px;
-    max-height: 40vh;
-    margin: 20px;
-    position: relative;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    
-  }
-  .speechbubble {
-    font-family: sans-serif;
-    background-color: #f2f2f2;
-    color: #161719;
-    font-size: 0.9em;
-    line-height: 1.75;
-    padding: 15px 25px;
-    margin-bottom: 20px;
-    border-radius: 10px 10px 0 10px;
-    cursor: default;
-    border-right: 5px solid #56b273;
-    width: 80%;
-    display: flex;
-    flex-direction: column;
-   
-  }
-  
-}
 
   .userSwitch {
     width: 20%;

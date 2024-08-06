@@ -1,6 +1,5 @@
 import Home from "./pages/Home"
 import Login from "./pages/Login"
-import About from "./pages/About"
 import "./css/home.scss"
 import "./css/login.scss"
 import "./css/session.scss"
@@ -10,6 +9,7 @@ import { AuthContext } from "./context/AuthContext"
 import Join from "./pages/Join"
 import Cookies from "js-cookie"
 import { validateToken } from "./service/authService"
+import About from "./pages/About" 
 
 function App () {
   const { currentUser, setCurrentUser } = useContext(AuthContext)
@@ -25,10 +25,10 @@ function App () {
           }
         }).catch((err) => {
           console.error(err)
-          return <Navigate to="/about" />
+          return <Navigate to="/login" />
         })
       } else {
-        return <Navigate to="/about" />
+        return <Navigate to="/login" />
       }
     }
     return children

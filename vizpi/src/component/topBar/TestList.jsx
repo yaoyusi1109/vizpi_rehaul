@@ -44,7 +44,6 @@ import BlockIcon from '@mui/icons-material/Block'
 import { TestResultContext } from '../../context/TestResultContext'
 import { ModeContext } from '../../context/ModeContext'
 import { validateTests } from '../../tool/validateTests'
-import CodeIcon from '@mui/icons-material/Code';
 const TestList = () => {
   const { session } = useContext(SessionContext)
   const { currentUser } = useContext(AuthContext)
@@ -262,8 +261,8 @@ const TestList = () => {
       )}
       {currentUser.role < 3 && Mode == false && (
         <div className="scafold">
-          <Typography variant="h6" fontWeight={'light'} gutterBottom className="title-container">
-          <CodeIcon className="code-icon"/> Test Cases
+          <Typography variant="h6" fontWeight={'light'} gutterBottom>
+            Test Cases
           </Typography>
           <div className="test-bar">
             <Typography variant="body1" fontWeight={'light'} gutterBottom>
@@ -526,8 +525,8 @@ const TestList = () => {
       {currentUser.role == 3 ||
         (currentUser.role < 3 && Mode == true && (
           <div className="scafold">
-          <Typography variant="h6" fontWeight={'light'} gutterBottom className="title-container">
-          <CodeIcon className="code-icon"/> Test Cases
+            <Typography variant="h6" fontWeight={'light'} gutterBottom>
+              Test Cases
             </Typography>
             <div className="add-div">
               <>
@@ -569,8 +568,8 @@ const TestList = () => {
         ))}
       {currentUser.role == 3 && (
         <div className="scafold">
-          <Typography variant="h6" fontWeight={'light'} gutterBottom className="title-container">
-          <CodeIcon className="code-icon"/> Test Cases
+          <Typography variant="h6" fontWeight={'light'} gutterBottom>
+            Test Cases
           </Typography>
           <div className="add-div">
             <>

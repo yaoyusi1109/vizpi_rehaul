@@ -1,6 +1,7 @@
 const { ChatOpenAI } = require("langchain/chat_models/openai")
 const { SystemMessage, HumanMessage } = require("langchain/schema")
 const fetch = require('node-fetch')
+const message = require("../models/message")
 
 const azureApiKey = process.env.UNI_AZURE_OPENAI_API_KEY
 const endpoint = "https://itls-openai-connect.azure-api.net/deployments/gpt-35-turbo/chat/completions?api-version=2023-12-01-preview"
@@ -536,32 +537,8 @@ exports.generateAudioTaskDescription = async (taskDescription) => {
     return 0
 
   let SystemMessage =
-    `create an in-class small group of 3 studetns discussion exercise (within 100 words, it should suit for 10 minute period) 
-    where the topic is around "${taskDescription}".
-    An example of the task description is:
-Exercise: Privacy - Biometrics and the 5th Amendment
-Duration: 10 minutes
-
-Scenario:
-
-Law enforcement forces a suspect to unlock their phone using facial recognition. Does this violate the 5th Amendment protection against self-incrimination?
-
-Discussion Points:
-
-Biometric vs. Knowledge:
-Are biometrics (like facial recognition) the same as providing a password?
-Should biometrics be protected under the 5th Amendment?
-
-Legal Precedents:
-How have courts historically treated physical evidence vs. testimonial evidence?
-Should advancements in technology change this perspective?
-
-Privacy Implications:
-What are the privacy concerns with using biometrics for security?
-How does this affect individual rights and government powers?
-
-Task:
-Each group member should share their initial thoughts on the scenario. Then, collectively summarize the key points and prepare one question for class discussion, such as "How should the legal system address the use of biometric data in the context of the 5th Amendment?"`
+    `create an in-class small group of 3 studetns discussion exercise (within 100 words, it should suit for 10 minute period) where the topic is around "${taskDescription}" 
+    `
 
   let HumanMessage = ''
   if (taskDescription && taskDescription.length > 0) {
@@ -617,5 +594,58 @@ exports.chatCompletion = async (message) => {
   } catch (error) {
     console.error('Error:', error)
     return `Error: ${error.message}`
+  }
+}
+
+
+
+
+exports.correctAnswers = async (taskDescription) => {
+  // 检查任务描述是否为空
+  if (!taskDescription || taskDescription.length === 0) {
+    return 0;
+  }
+
+  // 构造消息数组，包括系统消息和用户消息
+  const messages = [
+    {
+      role: "system",
+      content: `Given the ${taskDescription}, provide your correct answer in Python. Be specific and concise. Noted that the audience are college students so the methodology behind your answer should not be too complicated, ideally readable and understandable to freshmen or sophomores.
+      
+      In addition, your answer should include:
+      1. useful comments 
+      2. knowledge components covered in the question.
+      `
+    },
+    {
+      role: "user",
+      content: 'Task Description: ' + taskDescription
+    }
+  ];
+
+  // 设置请求头
+  const headers = {
+    "api-key": azureApiKey,
+    "Ocp-Apim-Subscription-Key": azureApiKey,
+    "Content-Type": "application/json"
+  };
+
+  // 构造请求体
+  const body = JSON.stringify({
+    messages: messages
+  });
+
+  try {
+    // 向 OpenAI 端点发送 POST 请求
+    const response = await fetch(endpoint, { method: "POST", headers: headers, body: body });
+    const data = await response.json();
+    console.log("data==>",data)
+    console.log("data.choices[0].message==>",data.choices[0].message)
+    // 返回生成的示例答案
+    return data.choices[0].message.content;
+  } catch (err) {
+    // 捕获并记录错误
+    console.error('Error generating sample answer:', err);
+    throw err;
   }
 }

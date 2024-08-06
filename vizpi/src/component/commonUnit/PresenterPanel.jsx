@@ -9,30 +9,11 @@ import style from '../../css/codeIssuePanel.scss'
 import TestList from '../topBar/TestList'
 import PresenterList from './PresenterList'
 import { Height } from '@mui/icons-material'
-import {
-  generateUserInSession,
-  groupingInSession,
-  removeGroupingInSession,
-  setSessionEnableChat,
-  setSessionEnableChatAndCloseSession,
-} from '../../service/sessionService'
-import { showToast } from '../commonUnit/Toast'
-import { SessionContext } from '../../context/SessionContext'
-import { Switch, FormControlLabel,Tooltip,Typography } from '@mui/material'
 const PresenterPanel = () => {
   const { setMode } = useContext(ModeContext)
-  const [chatEnable, setChatEnable] = useState(false)
-  const { session } = useContext(SessionContext)
-
-
-
   useEffect(() => {
     setMode(true)
   }, [])
-
-  useEffect(() => {
-    setChatEnable(session.enable_chat)
-  }, [session.enable_chat])
 
   const {
     isDragging: isFileDragging,
@@ -54,30 +35,6 @@ const PresenterPanel = () => {
     reverse: true,
   })
 
-  const handleChatEnableChange = async () => {
-    try {
-      let currentChatEnableStatus;
-      if (!chatEnable) {
-        currentChatEnableStatus = await setSessionEnableChat(
-          session?.id,
-          !chatEnable
-        );
-      } else {
-        currentChatEnableStatus = await setSessionEnableChatAndCloseSession(
-          session?.id,
-          !chatEnable,
-          "closed with AI chat disabled"
-        );
-      }
-      setChatEnable(!!currentChatEnableStatus);
-    } catch (error) {
-      console.error('Error changing chat enable status: ', error);
-    }
-  };
-  
-
-  if(!session) return null
-
   return (
     <div
       className={
@@ -92,23 +49,6 @@ const PresenterPanel = () => {
         <SampleSplitter isDragging={isFileDragging} {...fileDragBarProps} />
         <div className={'flex grow '}>
         <div className={'grow contents-code'} style={{ height: '100vh' }}>
-        {session?.type === "Vizmental" && (
-          <Tooltip title={<Typography variant="subtitle1">Disabling AI chat will mark the end of the session</Typography>}>
-            <FormControlLabel
-              value="top"
-              label="AI Chat"
-              labelPlacement="start"
-              control={
-                <Switch
-                  className="switch"
-                  checked={chatEnable}
-                  onChange={handleChatEnableChange}
-                  color="primary"
-                />
-              }
-            />
-          </Tooltip>
-        )}
         <SubmissionsProvider>
               <Code />
             </SubmissionsProvider>

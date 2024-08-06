@@ -5,6 +5,7 @@ import {
   updateTaskInSession,
   addQuizInSession,
   setEnableQuizInSession,
+  setCorrectAnswersSeesion
 } from '../../service/sessionService'
 import {
   Button,
@@ -17,10 +18,9 @@ import {
 import { SessionContext } from '../../context/SessionContext'
 import { filterProfanity } from '../../tool/profanityFilter'
 import '../../css/taskcard.scss'
-import { getQuizQuestions } from '../../tool/getQuiz'
+import { getCorrectAnswers, getQuizQuestions } from '../../tool/getQuiz'
 import FixTaskModal from '../commonUnit/FixTaskModal'
-import SubjectIcon from '@mui/icons-material/Subject';
-
+import CorrectAnswers from './CorrectAnswers'
 
 const TaskCard = () => {
   const { currentUser } = useContext(AuthContext)
@@ -30,16 +30,22 @@ const TaskCard = () => {
   const textAreaRef = useRef()
   const [chatEnable, setChatEnable] = useState(false)
   const [quiz, setQuiz] = useState(null)
+  const [correctAnswers, setCorrectAnswers] = useState(null)
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [isUpdating, setIsUpdating] = useState(false)
   const [quizEnable, setQuizEnable] = useState(false)
+  const [correctAnswerEnable, setCorrectAnswerEnable] = useState(false)
 
-  useEffect(() => {
+  useEffect(() => { 
     if (!session) return
     if (!session.task) return
     setTaskContent(session.task)
     setChatEnable(session.enable_chat)
-    setQuizEnable(session.enable_quiz)
+    if (!correctAnswerEnable) {
+      setQuizEnable(session.enable_quiz)
+    }   
+    console.log(session.quiz);
+    
     if (session.quiz) {
       setQuizQuestions(session.task)
     } else {
@@ -61,11 +67,13 @@ const TaskCard = () => {
       setIsUpdating(true)
       try {
         const newQuiz = await getQuizQuestions(task)
+        const newCorrectAnswers = await getCorrectAnswers(task)
         const res = await addQuizInSession(currentUser.session_id, newQuiz)
         if (!res) {
           //console.log('Quiz update failed!');
         } else {
           setQuiz(newQuiz)
+          setCorrectAnswers(newCorrectAnswers)
         }
       } catch (error) {
         console.error('Error fetching quiz questions:', error)
@@ -108,8 +116,8 @@ const TaskCard = () => {
 
   const handleEnableQuizChange = async () => {
     const newQuizEnable = !quizEnable
+    newQuizEnable && setCorrectAnswerEnable(false)
     setQuizEnable(newQuizEnable)
-
     //console.log("quiz is now:", newQuizEnable);
 
     const res = await setEnableQuizInSession(
@@ -119,14 +127,23 @@ const TaskCard = () => {
     //console.log("quiz is now in db:", session.enable_quiz );
   }
 
+  const handleEnableCorrectAnswerChange = async () => {
+    const newCorrectAnswerEnable = !correctAnswerEnable
+    newCorrectAnswerEnable && setQuizEnable(false)
+    setCorrectAnswerEnable(newCorrectAnswerEnable)
+    const res = await setCorrectAnswersSeesion(
+      currentUser.session_id,
+      newCorrectAnswerEnable
+    )
+  }
+
   const alphabetLabels = ['a', 'b', 'c', 'd', 'e']
 
   return (
     <div className="taskCard" sx={{ display: 'flex' }}>
-          <Typography variant="h6" fontWeight="light"  className="title-container">
-      <SubjectIcon className="subject-icon" />
-      <span>Task Description</span>
-    </Typography>
+      <Typography variant="h6" fontWeight={'light'} gutterBottom>
+        Task Description
+      </Typography>
       <div className="task-area">
         <textarea
           ref={textAreaRef}
@@ -138,7 +155,7 @@ const TaskCard = () => {
         />
       </div>
       <div className="exerciseBar">
-        {currentUser.role <= 1 && ( 
+        {currentUser.role <= 1 && (
           <>
             {isEditable ? (
               <>
@@ -181,22 +198,39 @@ const TaskCard = () => {
 
       {currentUser?.role <= 1 && session?.type !== 'Audio' && (
         <>
-          <Box display="flex" alignItems="center">
-            <Typography variant="h6" fontWeight="light" sx={{ marginRight: 1 }}>
-              Pre-coding Questions
-            </Typography>
-            <FormControlLabel
-              value="top"
-              labelPlacement="end"
-              control={
-                <Switch
-                  className="switch"
-                  checked={quizEnable}
-                  onChange={handleEnableQuizChange}
-                  color="primary"
-                />
-              }
-            />
+          <Box display="flex" alignItems="center" justifyContent='space-between'>
+            <Box display='flex' alignItems="center" justifyContent='left'>
+              <Typography variant="h6" fontWeight="light" sx={{ marginRight: 1 }}>Correct answers</Typography>
+              <FormControlLabel
+                value="top"
+                labelPlacement="end"
+                control={
+                  <Switch
+                    className="switch"
+                    checked={correctAnswerEnable}
+                    onChange={handleEnableCorrectAnswerChange}
+                    color="primary"
+                  />
+                }
+              />
+            </Box>
+            <Box display="flex" alignItems="center" justifyContent='right'>
+              <Typography variant="h6" fontWeight="light" sx={{ marginRight: 1 }}>
+                Pre-coding Questions
+              </Typography>
+              <FormControlLabel
+                value="top"
+                labelPlacement="end"
+                control={
+                  <Switch
+                    className="switch"
+                    checked={quizEnable}
+                    onChange={handleEnableQuizChange}
+                    color="primary"
+                  />
+                }
+              />
+            </Box>
           </Box>
           {quizEnable ? (
             <>
@@ -310,6 +344,7 @@ const TaskCard = () => {
               {/* Pre-coding questions are currently disabled. */}
             </Box>
           )}
+          {<CorrectAnswers enable={correctAnswerEnable} isUpdating={isUpdating} correctAnswers={correctAnswers}/>}
           {currentUser?.role <= 1 && quizEnable && (
             <div className="exerciseBar">
               <Button

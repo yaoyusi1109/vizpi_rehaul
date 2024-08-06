@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useContext, useRef } from 'react';
 import { AuthContext } from '../../context/AuthContext';
+import { getGroupByUser, sendMessageToAllGroup, sendMessageWithGroupAndUser } from '../../service/groupService';
 import { SessionContext } from '../../context/SessionContext';
 import { showToast } from '../commonUnit/Toast';
 import { MenuItem, Select, Typography,Box } from '@mui/material';
+import { filterProfanity, proFanityFilter } from '../../tool/profanityFilter';
 import { MessageContext } from '../../context/MessageContext';
 import '../../css/chat.scss';
 import { SelectedCodeContext } from "../../context/SelectedCodeContext";
@@ -11,7 +13,7 @@ import { subscribeToAIMessage, sendMessageToAI, sendAIResponseToUser, getMessage
 import Loading from '../commonUnit/Loading';
 import axios from 'axios';
 import Messages from './Messages';
-import { addMessageType} from '../../tool/aiAssistant';
+import { getSolution, addMessageType} from '../../tool/aiAssistant';
 
 
 
@@ -44,7 +46,6 @@ const AIChat = () => {
   const chatHistoryRef = useRef(null);
   const [isChatDisabled, setIsChatDisabled] = useState(true);
   const [isChatOpen, setIsChatOpen] = useState(false);
-  const [chatEnable, setChatEnable] = useState(false)
 
   useEffect(() => {
     if (session?.type) {
@@ -53,10 +54,6 @@ const AIChat = () => {
       }
     }
   }, [session]);
-  
-  useEffect(() => {
-    setChatEnable(session.enable_chat)
-  }, [session.enable_chat])
 
   useEffect(() => {
     if (selectedCode !== null) {
@@ -194,12 +191,12 @@ const askAI = async (studentPrompt, currentCode) => {
       setIsLoadingAIResponse(false);
     }
 };
-  if(!session) return null
+
 
 
   return (
-    chatEnable ? 
-    (<div className="chat-container" style={{ height: '100%' }}>
+    
+    <div className="chat-container" style={{ height: '100%' }}>
         {/* <Box sx={{ background: '#FFFFFF', padding: '15px', marginLeft: '10px', marginRight: '10px', borderRadius: '10px', border: '1px solid #E0E0E0', marginBottom: '10px', display: 'flex',  flexDirection: 'column' }}>
         <Typography variant="h6" fontWeight="light">
             AI Chat
@@ -233,8 +230,7 @@ const askAI = async (studentPrompt, currentCode) => {
           </button>
         </form>
       </div>
-    </div>):
-    <Typography variant="body1" margin={2}>The AI Assistant is currently disabled by your instructor. Please stay focused on the current topics being discussed by the instructor.</Typography>
+    </div>
   );
 }
 

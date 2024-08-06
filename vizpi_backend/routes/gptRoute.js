@@ -46,6 +46,11 @@ router.post('/generateAudioTask', (req, res, next) => {
   return gptController.generateAudioTaskDescription(req, res, next)
 })
 
+// correct answers api
+router.post('/getCorrectAnswers', (req, res, next) => {
+  return gptController.getCorrectAnswers(req, res, next)
+})
+
 
 
 module.exports = router

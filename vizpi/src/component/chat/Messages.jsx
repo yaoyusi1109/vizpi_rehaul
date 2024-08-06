@@ -26,7 +26,7 @@ const Messages = ({ messages }) => {
     fetchUser()
   }, [messages, selectedUsers])
 
-  if (session.type !== 'Vizmental') {
+  if (session.type !== 'Vizmental' ) {
     if (!allUsers || allUsers.length === 0) {
       return <div>Loading...</div>
     }
@@ -35,28 +35,28 @@ const Messages = ({ messages }) => {
   return (
     <div className="messages">
       {messages.map((message, index) => {
-        let user = null
-        if (session.type !== 'Vizmental') {
-          if (!allUsers || allUsers.length === 0) {
-            return null
-          }
-          for (const member of allUsers) {
-            if (member.id === message.sender_id) {
-              user = member
-              break
+          let user = null
+          if(session.type !== 'Vizmental') {
+            if (!allUsers || allUsers.length === 0) {
+              return null
             }
-          }
-          if (!user) {
-            user = session.instructor
-          }
-        } else {
+            for (const member of allUsers) {
+              if (member.id === message.sender_id) {
+                user = member
+                break
+              }
+            }
+            if (!user) {
+              user = session.instructor
+            }
+        }else{
           user = currentUser
         }
 
         const isSelected = selectedMessage === message
         return (
           <Message
-            key={message.id}
+            key={index}
             message={message}
             user={user}
             isSelected={isSelected}

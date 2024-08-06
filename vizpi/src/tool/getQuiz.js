@@ -1,6 +1,7 @@
 const axios = require('axios');
 const gptHost = process.env.REACT_APP_HOST + "/api/v1/gpt/getQuiz";
 const gptHost2 = process.env.REACT_APP_HOST + "/api/v1/gpt/getFeedback";
+const correctAnswersApi  = process.env.REACT_APP_HOST + "/api/v1/gpt/getCorrectAnswers";
 
 export async function getQuizQuestions(taskDescription) {
   if (!taskDescription || taskDescription.length === 0) {
@@ -46,3 +47,18 @@ export async function getAnswerFeedBack(taskDescription, functionName, wrongAnsw
   }
 }
 
+
+export async function getCorrectAnswers(taskDescription) {
+  if (!taskDescription || taskDescription.length === 0) {
+    return []; 
+  }
+  try {
+    let response = await axios.post(correctAnswersApi, {
+      taskDescription: taskDescription
+    });
+    return response.data; 
+  } catch (error) {
+    console.error('Error fetching quiz questions:', error);
+    throw error; 
+  }
+}

@@ -38,6 +38,7 @@ const Message = ({ message, user, isSelected, onSelect }) => {
         const index = emojiArray.findIndex((emoji) => emoji === obj)
         emojiArray.splice(index, 1)
       }
+      
     })
     setSelectedEmoji(emojiArray)
   }, [message])
@@ -94,7 +95,7 @@ const Message = ({ message, user, isSelected, onSelect }) => {
     } else {
       let newEmojis = [...selectedEmoji]
       let emoji_index = newEmojis[index].emoji.findIndex((obj) => obj === emoji)
-      let emojiObj = {
+      let emojiObj = { 
         by: name,
         emoji: newEmojis[index].emoji,
       }
@@ -109,21 +110,20 @@ const Message = ({ message, user, isSelected, onSelect }) => {
   }
 
   const handleClick = async () => {
-    if (message.group_id !== -4) {
+    if( message.group_id !== -4) {
       if (onSelect) onSelect()
       const user_id = await getUserById(message.sender_id)
       const code = await getCodeById(user_id.code_id)
-      if (!code && !showReaction) showToast('Code not found!', 'warning')
+      if (!code && !showReaction)
+        showToast('Code not found!', 'warning')
       if (code) setSelectedCode(code)
     }
   }
 
+
   if (currentUser?.id !== message?.sender_id) {
-    const url =
-      message.sender_id === -4
-        ? 'https://cdn1.iconfinder.com/data/icons/data-science-flat-1/64/ai-customer-service-support-robot-artificial-intelligence-1024.png'
-        : getAvatar(user?.avatar_url)
-    const name = message.sender_id === -4 ? 'AI assistant' : user?.first_name
+    const url = message.sender_id ===  -4 ? "https://cdn1.iconfinder.com/data/icons/data-science-flat-1/64/ai-customer-service-support-robot-artificial-intelligence-1024.png" : getAvatar(user?.avatar_url)
+    const name = message.sender_id === -4 ? "AI assistant" : user?.first_name
     return (
       <div
         className={messageClass}
@@ -136,7 +136,7 @@ const Message = ({ message, user, isSelected, onSelect }) => {
         <div className="messageInfo">
           <img src={getAvatar(url)} alt="" />
           <span className="info-user">{name}</span>
-          {/* <span>{getDateString(message.created_time)}</span> */}
+          <span>{getDateString(message.created_time)}</span>
           <span>{getTimeString(message.created_time)}</span>
         </div>
         <div className="messageContentWrapper">
@@ -150,7 +150,7 @@ const Message = ({ message, user, isSelected, onSelect }) => {
               <p className="dm">(Direct Message)</p>
             )}
           <div style={{ display: 'flex' }}>
-            <div style={{ marginRight: '4px' }} key={`${message.id}-heart`}>
+            <div style={{ marginRight: '4px' }} key={0}>
               <SlackCounterGroup
                 emoji={'❤️'}
                 count={emojiNames[0].length}
@@ -161,7 +161,7 @@ const Message = ({ message, user, isSelected, onSelect }) => {
                 }
               />
             </div>
-            <div style={{ marginRight: '4px' }} key={`${message.id}-check`}>
+            <div style={{ marginRight: '4px' }} key={0}>
               <SlackCounterGroup
                 emoji={'✅'}
                 count={emojiNames[1].length}
@@ -172,7 +172,7 @@ const Message = ({ message, user, isSelected, onSelect }) => {
                 }
               />
             </div>
-            <div style={{ marginRight: '4px' }} key={`${message.id}-thumb`}>
+            <div style={{ marginRight: '4px' }} key={0}>
               <SlackCounterGroup
                 emoji={'👍'}
                 count={emojiNames[2].length}
@@ -183,7 +183,7 @@ const Message = ({ message, user, isSelected, onSelect }) => {
                 }
               />
             </div>
-            <div style={{ marginRight: '4px' }} key={`${message.id}-question`}>
+            <div style={{ marginRight: '4px' }} key={0}>
               <SlackCounterGroup
                 emoji={'❔'}
                 count={emojiNames[3].length}
@@ -243,7 +243,7 @@ const Message = ({ message, user, isSelected, onSelect }) => {
             <p className="dm">(Direct Message)</p>
           )}
         <div style={{ display: 'flex' }}>
-          <div style={{ marginRight: '4px' }} key={`${message.id}-heart`}>
+          <div style={{ marginRight: '4px' }} key={0}>
             <SlackCounterGroup
               emoji={'❤️'}
               count={emojiNames[0].length}
@@ -254,7 +254,7 @@ const Message = ({ message, user, isSelected, onSelect }) => {
               }
             />
           </div>
-          <div style={{ marginRight: '4px' }} key={`${message.id}-check`}>
+          <div style={{ marginRight: '4px' }} key={0}>
             <SlackCounterGroup
               emoji={'✅'}
               count={emojiNames[1].length}
@@ -265,7 +265,7 @@ const Message = ({ message, user, isSelected, onSelect }) => {
               }
             />
           </div>
-          <div style={{ marginRight: '4px' }} key={`${message.id}-thumb`}>
+          <div style={{ marginRight: '4px' }} key={0}>
             <SlackCounterGroup
               emoji={'👍'}
               count={emojiNames[2].length}
@@ -276,7 +276,7 @@ const Message = ({ message, user, isSelected, onSelect }) => {
               }
             />
           </div>
-          <div style={{ marginRight: '4px' }} key={`${message.id}-question`}>
+          <div style={{ marginRight: '4px' }} key={0}>
             <SlackCounterGroup
               emoji={'❔'}
               count={emojiNames[3].length}
@@ -292,7 +292,7 @@ const Message = ({ message, user, isSelected, onSelect }) => {
       <div className="messageInfo">
         <img src={getAvatar(user?.avatar_url)} alt="" />
         <span className="info-user">{currentUser.first_name}</span>
-        {/* <span>{getDateString(message.created_time)}</span> */}
+        <span>{getDateString(message.created_time)}</span>
         <span>{getTimeString(message.created_time)}</span>
       </div>
     </div>

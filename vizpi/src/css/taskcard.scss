@@ -3,29 +3,20 @@
   height: 100%;
   background-color: #ffffff;
   padding: 10px 10px 0 10px;
-  // border: 1px solid #e1e1e1;
+  border: 1px solid #e1e1e1;
   box-sizing: border-box;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
   border-radius: 15px;
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  margin: 0px 5px;
+
   .task-area {
     height: 35%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     box-sizing: border-box;
-  }
-  .subject-icon {
-    color: #006de2;
-    margin-right: 8px; /* Add some space between the icon and the text */
-  }
-  
-  .title-container {
-    display: flex;
-    align-items: center; 
   }
   textarea {
     margin: 1px;
@@ -38,7 +29,6 @@
     box-sizing: border-box;
     resize: none;
     display: flex;
-    background-color: #ffffff;
   }
 
   .exerciseBar {
