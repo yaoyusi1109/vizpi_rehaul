@@ -38,8 +38,8 @@ export const addCodeAndUpdateUser = async (
   userId,
   keystrokes
 ) => {
-
-  if (!content || content === "" || !userId) {
+  console.log(content,userId)
+  if (content==null || !userId) {
     return false
   }
 
@@ -76,4 +76,39 @@ export const searchCodesBySession = async (sessionId, target) => {
   }
 }
 
+export const runCode = async (code1, code2, type,session_id) => {
+  if (code1==null || code2==null|| !type) {
+    return -1
+  }
+  try {
+    let res = await axios.post(codeUrl + '/run/'+session_id, {
+      code1: code1,
+      code2: code2,
+      type: type
+    })
+    console.log(res)
+    return res.data.code
+    
+  } catch (error) {
+    console.log(error)
+    
+  }
+  
+}
+
+export const getSchemaBySessionId = async (session_id) => {
+  if (!session_id) {
+    return -1
+  }
+  try {
+    let res = await axios.get(codeUrl + '/schema/'+session_id)
+    console.log(res)
+    return res.data.code
+    
+  } catch (error) {
+    console.log(error)
+    
+  }
+  
+}
 

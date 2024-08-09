@@ -8,6 +8,9 @@ const Login = () => {
   const [err, setErr] = useState(false)
   const navigate = useNavigate()
   const { currentUser, setCurrentUser } = useContext(AuthContext)
+  const handleHomePage = () => {
+    navigate('/about')
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -37,8 +40,8 @@ const Login = () => {
           <input type="email" placeholder="email" />
           <input type="password" placeholder="password" />
           <div className='loginButton'><button>Sign in</button></div>
-          <button>
-          <Link to="/about">About</Link>
+          <button onClick={handleHomePage}>
+          Homepage
           </button>
           {err && <span>{err}</span>}
         </form>

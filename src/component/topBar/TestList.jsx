@@ -15,12 +15,13 @@ import {
   TextField,
   Typography,
   Collapse,
+  Divider
 } from '@mui/material'
 import AddIcon from '@mui/icons-material/Add'
 import DeleteIcon from '@mui/icons-material/Delete'
 import AssistantIcon from '@mui/icons-material/Assistant'
 import IconButton from '@mui/material/IconButton'
-import UpgradeIcon from '@mui/icons-material/Upgrade'
+import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft';
 import { LoadingButton } from '@mui/lab'
 import Alert from '@mui/material/Alert'
 import { SessionContext } from '../../context/SessionContext'
@@ -160,6 +161,89 @@ const TestList = () => {
 
   let checker = (arr) => arr.every((v) => v === true)
 
+  const checkString = (type,index,newTestList) =>{
+    newTestList = newTestList|| [...testList];
+    
+    let value;
+    if(type == 'parameter'){
+      value = newTestList[index].parameter
+    }
+    else{
+      value = newTestList[index].return
+    }
+    
+    console.log(value)
+    console.log(newTestList[index])
+    let inQuote=-1
+    for(let i = 0; i < value.length; i++){
+      if(value[i]=='\'' || value[i]=='\"' ){
+        if(inQuote !=-1){
+          if(value[inQuote]!='\'' &&value[inQuote]!='\"' ){
+            console.log(value.substring(0,inQuote)+'\"'+value.substring(inQuote))
+            newTestList[index].newTest = type == 'parameter' ?{
+              testName: newTestList[index].testName,
+              parameter: value.substring(0,inQuote)+'\"'+value.substring(inQuote),
+              return: newTestList[index].return,
+              visable: false,
+            } : {
+              testName: newTestList[index].testName,
+              parameter: newTestList[index].parameter,
+              return: value.substring(0,inQuote)+'\"'+value.substring(inQuote),
+              visable: false,
+            }
+            setTestList(newTestList)
+            inQuote=-1
+            return newTestList;
+          }
+          inQuote = -1
+        }
+        else{
+          inQuote=i
+        }
+      }
+      else if(value[i]=='[' || value[i]==']' || value[i]==',' ||value[i]==';'){
+        if(inQuote!=-1){
+          console.log(value[inQuote]=='\'' ||value[inQuote]=='\"' ? value.substring(0,i)+'\"'+value.substring(i) : value.substring(0,inQuote)+'\"'+value.substring(inQuote,i)+'\"'+value.substring(i))
+          //have text with no quote
+          newTestList[index].newTest = type == 'parameter' ?{
+            testName: newTestList[index].testName,
+            parameter: value[inQuote]=='\'' ||value[inQuote]=='\"' ? value.substring(0,i)+'\"'+value.substring(i) : value.substring(0,inQuote)+'\"'+value.substring(inQuote,i)+'\"'+value.substring(i),
+            return: newTestList[index].return,
+            visable: false,
+          } : {
+            testName: newTestList[index].testName,
+            parameter: newTestList[index].parameter,
+            return: value[inQuote]=='\'' ||value[inQuote]=='\"' ? value.substring(0,i)+'\"'+value.substring(i) : value.substring(0,inQuote)+'\"'+value.substring(inQuote,i)+'\"'+value.substring(i),
+            visable: false,
+          }
+          setTestList(newTestList)
+          inQuote=-1
+          return newTestList;
+        }
+      }
+      else if(inQuote==-1 && !((value[i] >= '0' && value[i] <= '9')||value[i]==' '||value[i]==='-')){
+        inQuote = i
+      }
+    }
+    if(inQuote!=-1){
+      console.log(value[inQuote]=='\'' ||value[inQuote]=='\"' ? value+'\"' : value.substring(0,inQuote)+'\"'+value.substring(inQuote)+'\"')
+      //ends with no quote
+      newTestList[index].newTest = type == 'parameter' ?{
+        testName: newTestList[index].testName,
+        parameter: value[inQuote]=='\'' ||value[inQuote]=='\"' ? value+'\"' : value.substring(0,inQuote)+'\"'+value.substring(inQuote)+'\"',
+        return: newTestList[index].return,
+        visable: false,
+      } : {
+        testName: newTestList[index].testName,
+        parameter: newTestList[index].parameter,
+        return: value[inQuote]=='\'' ||value[inQuote]=='\"' ? value+'\"' : value.substring(0,inQuote)+'\"'+value.substring(inQuote)+'\"',
+        visable: false,
+      }
+      setTestList(newTestList)
+      
+    }
+    return newTestList;
+  }
   const handleGenerateTest = async () => {
     if (num < 1 || num % 1 !== 0) {
       showToast('Please enter a positive integer.', 'warning')
@@ -304,208 +388,196 @@ const TestList = () => {
               </Select>
             </FormControl>
           </div>
-          <div className="add-div">
+          <div className="add-div" style={{marginTop:".5em"}}>
             <>
-              <TableContainer>
-                <Table className="testTable">
-                  <TableHead>
-                    <TableRow>
-                      <TableCell>
-                        <Typography fontSize={'+2'} fontWeight={'bold'}>
-                          Name
+              {testList.map((test, index) => (
+                <>
+                  <div style={{display: 'flex', justifyContent:"space-between",marginBottom:".2em"}}>
+                    <div>
+                      <div style={{display: 'flex',}}>
+                        <Typography fontSize={"+2"} fontWeight={"bold"} sx={{marginRight:".5em",paddingTop:".3em"}}>
+                          Test {index}: 
                         </Typography>
-                      </TableCell>
-                      <TableCell>
-                        <Typography fontSize={'+2'} fontWeight={'bold'}>
-                          Parameter
+                        <TextField
+                          className="textField"
+                          variant="standard"
+                          value={test.testName}
+                          size="medium"
+                          inputProps={{ style: { fontSize: "14px" } }}
+                          onChange={(e) => {
+                            const newTestList = [...testList];
+                            newTestList[index].testName = e.target.value
+                            setTestList(newTestList)
+                          }}
+                          onBlur={(e) => {
+                            updateTestListInSession(session.id, testList);
+                          }}
+                        ></TextField>
+                      </div>
+                      <div style={{display: 'flex',}}>
+                        <Typography fontSize={"+2"} sx={{marginRight:".5em",paddingTop:".3em"}}>
+                          Input:
                         </Typography>
-                      </TableCell>
-                      <TableCell>
-                        <Typography fontSize={'+2'} fontWeight={'bold'}>
-                          Return Value
+                        <TextField
+                          className="textField"
+                          variant="standard"
+                          value={test.parameter}
+                          size="medium"
+                          inputProps={{ style: { fontSize: "14px" } }}
+                          onChange={(e) => {
+                            const newTestList = [...testList];
+                            newTestList[index].parameter = e.target.value
+                            setTestList(newTestList)
+                            if(!alert){
+                              setColor("success")
+                            }
+                          }}
+                          onBlur={(e) => {
+                            checkString('parameter',index)
+                            updateTestListInSession(session.id, testList);
+                          }}
+                        ></TextField>
+                      </div>
+                      <div style={{display: 'flex',}}>
+                        <Typography fontSize={"+2"} sx={{marginRight:".5em",paddingTop:".3em"}}>
+                          Output:
                         </Typography>
-                      </TableCell>
-
-                      <TableCell>
-                        <Typography fontSize={'+2'} fontWeight={'bold'}>
-                          Delete
-                        </Typography>
-                      </TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {testList.map((test, index) => (
-                      <React.Fragment>
-                        <TableRow key={index}>
-                          <TableCell>
-                            <TextField
-                              fullWidth
-                              className="textField"
-                              variant="outlined"
-                              value={test.testName}
-                              size="medium"
-                              inputProps={{ style: { fontSize: '14px' } }}
-                              onChange={(e) => {
-                                const newTestList = [...testList]
-                                newTestList[index].testName = e.target.value
-                                setTestList(newTestList)
-                              }}
-                              onBlur={(e) => {
-                                updateTestListInSession(session.id, testList)
-                              }}></TextField>
-                            {/* <Typography fontSize={"+1"}>
-                              {test.testName}
-                            </Typography> */}
-                          </TableCell>
-                          <TableCell>
-                            <TextField
-                              fullWidth
-                              className="textField"
-                              variant="outlined"
-                              value={test.parameter}
-                              size="medium"
-                              inputProps={{ style: { fontSize: '14px' } }}
-                              onChange={(e) => {
-                                const newTestList = [...testList]
-                                newTestList[index].parameter = e.target.value
-                                setTestList(newTestList)
-                                if (!alert) {
-                                  setColor('success')
-                                }
-                              }}
-                              onBlur={(e) => {
-                                updateTestListInSession(session.id, testList)
-                              }}></TextField>
-                            {/* <Typography fontSize={"+1"}>
-                              {test.parameter}
-                            </Typography> */}
-                          </TableCell>
-                          <TableCell>
-                            <TextField
-                              fullWidth
-                              className="textField"
-                              variant="outlined"
-                              value={test.return}
-                              size="medium"
-                              inputProps={{ style: { fontSize: '14px' } }}
-                              onChange={(e) => {
-                                const newTestList = [...testList]
-                                newTestList[index].return = e.target.value
-                                setTestList(newTestList)
-                                if (!alert) {
-                                  setColor('success')
-                                }
-                              }}
-                              onBlur={(e) => {
-                                updateTestListInSession(session.id, testList)
-                              }}></TextField>
-                            {/* <Typography fontSize={"+1"}>{test.return}</Typography> */}
-                          </TableCell>
-
-                          <TableCell>
-                            <Button
-                              variant="outlined"
-                              startIcon={<DeleteIcon />}
-                              onClick={(e) => {
-                                handleDeleteTest(index)
-                              }}>
-                              Delete
-                            </Button>
-                          </TableCell>
-                        </TableRow>
-                        {testList[index].newTest != null ? (
-                          <TableRow>
-                            <TableCell style={{ width: '25%' }}>
-                              <Typography fontWeight={'light'}>
-                                {test.newTest.testName}
-                              </Typography>
-                            </TableCell>
-                            <TableCell style={{ width: '25%' }}>
-                              <Typography fontWeight={'light'}>
-                                {test.newTest.parameter}
-                              </Typography>
-                            </TableCell>
-                            <TableCell style={{ width: '25%' }}>
-                              <Typography fontWeight={'light'}>
-                                {test.newTest.return}
-                              </Typography>
-                            </TableCell>
-                            <TableCell
-                              style={{ width: '25%', flexDirection: 'row' }}>
-                              <Button
-                                variant="outlined"
-                                startIcon={<UpgradeIcon />}
-                                style={{ align: 'left' }}
-                                onClick={(e) => {
-                                  handleEditTest(index)
-                                }}>
-                                Replace
-                              </Button>
-                              <IconButton
-                                variant="outlined"
-                                style={{ align: 'right' }}
-                                color="error"
-                                onClick={(e) => {
-                                  handleRemoveSuggestedTest(index)
-                                }}>
-                                <CloseIcon />
-                              </IconButton>
-                            </TableCell>
-                          </TableRow>
-                        ) : null}
-                      </React.Fragment>
-                    ))}
-                    {currentUser.role < 3 ? (
-                      <TableRow key={testList.length + 1}>
-                        <TableCell>
-                          <TextField
-                            fullWidth
-                            className="textField"
-                            variant="outlined"
-                            value={testName}
-                            size="medium"
-                            inputProps={{ style: { fontSize: '14px' } }}
-                            onChange={(e) => {
-                              setTestName(e.target.value)
-                            }}></TextField>
-                        </TableCell>
-                        <TableCell>
-                          <TextField
-                            fullWidth
-                            className="textField"
-                            variant="outlined"
-                            size="medium"
-                            inputProps={{ style: { fontSize: '14px' } }}
-                            value={parameter}
-                            onChange={(e) => {
-                              setParameter(e.target.value)
-                            }}></TextField>
-                        </TableCell>
-                        <TableCell>
-                          <TextField
-                            fullWidth
-                            className="textField"
-                            variant="outlined"
-                            size="medium"
-                            inputProps={{ style: { fontSize: '14px' } }}
-                            value={returnValue}
-                            onChange={(e) => {
-                              setReturnValue(e.target.value)
-                            }}></TextField>
-                        </TableCell>
-                        <TableCell>
+                        <TextField
+                          className="textField"
+                          variant="standard"
+                          value={test.return}
+                          size="medium"
+                          inputProps={{ style: { fontSize: "14px" } }}
+                          onChange={(e) => {
+                            const newTestList = [...testList];
+                            newTestList[index].return = e.target.value
+                            setTestList(newTestList)
+                            if(!alert){
+                              setColor("success")
+                            }
+                          }}
+                          onBlur={(e) => {
+                            console.log("hey")
+                            checkString('return',index)
+                            updateTestListInSession(session.id, testList);
+                          }}
+                        ></TextField>
+                      </div>
+                    </div>
+                    {testList[index].newTest!=null ? (
+                      <div style={{marginLeft:".7em"}}>
+                        <div style={{display: 'flex'}}>
                           <Button
                             variant="outlined"
-                            startIcon={<AddIcon />}
-                            onClick={() => {
-                              handleAddTest()
-                            }}></Button>
-                        </TableCell>
-                      </TableRow>
+                            startIcon={<ArrowCircleLeftIcon />}
+                            style= {{align: "left"}}
+                            size="small"
+                            onClick={(e) => {
+                              handleEditTest(index);
+                            }}
+                          >
+                            Replace
+                          </Button>
+                          <IconButton
+                            variant="outlined"
+                            style= {{align: "right"}}
+                            color="error"
+                            size="small"
+                            onClick={(e) => {
+                              handleRemoveSuggestedTest(index);
+                            }}
+                          >
+                            <CloseIcon />
+                          </IconButton>
+                          
+                        </div>
+                        <div style={{display: 'flex',}}>
+                          <Typography fontSize={"+2"} sx={{marginRight:".5em",paddingTop:".3em"}}>
+                            Input: {test.newTest.parameter}
+                          </Typography>
+                          
+                        </div>
+                        <div style={{display: 'flex',}}>
+                          <Typography fontSize={"+2"} sx={{marginRight:".5em",paddingTop:".3em"}}>
+                            Output: {test.newTest.return}
+                          </Typography>
+                          
+                        </div>
+                      </div>
                     ) : null}
-                  </TableBody>
-                </Table>
-              </TableContainer>
+                    
+                    <Button
+                      variant="outlined"
+                      startIcon={<DeleteIcon />}
+                      onClick={(e) => {
+                        handleDeleteTest(index);
+                      }}
+                    >
+                      Delete
+                    </Button>
+                    
+                  </div>
+                  <Divider flexItem sx={{ bgcolor: "Light gray",marginBottom:".2em" }} />
+                </>
+              ))}
+              <div style={{display: 'flex', justifyContent:"space-between"}}>
+                <div>
+                  <div style={{display: 'flex',}}>
+                    <Typography fontSize={"+2"} fontWeight={"bold"} sx={{marginRight:".5em",paddingTop:".3em"}}>
+                      Test {testList.length+1}: 
+                    </Typography>
+                    <TextField
+                      className="textField"
+                      variant="standard"
+                      value={testName}
+                      size="medium"
+                      inputProps={{ style: { fontSize: "14px" } }}
+                      onChange={(e) => {
+                        setTestName(e.target.value);
+                      }}
+                    ></TextField>
+                  </div>
+                  <div style={{display: 'flex',}}>
+                    <Typography fontSize={"+2"} sx={{marginRight:".5em",paddingTop:".3em"}}>
+                      Input:
+                    </Typography>
+                    <TextField
+                      className="textField"
+                      variant="standard"
+                      size="medium"
+                      inputProps={{ style: { fontSize: "14px" } }}
+                      value={parameter}
+                      onChange={(e) => {
+                        setParameter(e.target.value);
+                      }}
+                    ></TextField>
+                  </div>
+                  <div style={{display: 'flex',}}>
+                    <Typography fontSize={"+2"} sx={{marginRight:".5em",paddingTop:".3em"}}>
+                      Output:
+                    </Typography>
+                    <TextField
+                      className="textField"
+                      variant="standard"
+                      size="medium"
+                      inputProps={{ style: { fontSize: "14px" } }}
+                      value={returnValue}
+                      onChange={(e) => {
+                        setReturnValue(e.target.value);
+                      }}
+                    ></TextField>
+                  </div>
+                </div>
+                <Button
+                  variant="outlined"
+                  startIcon={<AddIcon />}
+                  onClick={() => {
+                    handleAddTest();
+                  }}
+                ></Button>
+                
+              </div>
+              
             </>
           </div>
           <div className="test-bar">

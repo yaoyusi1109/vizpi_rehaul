@@ -132,8 +132,8 @@ export const addSession = async (crn, task, subject, type, creater_id) => {
 		creater_id: creater_id,
 		task: task,
 		subject: subject,
-		enable_chat: type === "Helper/Helpee" || type === "Audio" ? true : false,
-		grouped: type === "Helper/Helpee" || type === "Audio" ? true : false,
+		enable_chat: type === "Helper/Helpee" || type === "Audio" || type.startsWith("SQL") ? true : false,
+		grouped: type === "Helper/Helpee" || type === "Audio" || type.startsWith("SQL") ? true : false,
 		stu_num: 0,
 		group_round: 0,
 		regrouping: false,
@@ -465,10 +465,11 @@ export const checkUserInSession = async (sessionId, userId) => {
 }
 
 export const subscribeSession = (sessionId, updateSession) => {
+	console.log("subscribing to session",sessionId)
 	socket.emit("subscribe session", sessionId)
 
 	socket.on("update session", (res) => {
-		//console.log(res.data)
+		console.log(res)
 		updateSession(res.data)
 	})
 
@@ -477,7 +478,7 @@ export const subscribeSession = (sessionId, updateSession) => {
 	})
 
 	const handleUpdateSession = (res) => {
-		//console.log(res.data)
+		console.log(res)
 		updateSession(res.data)
 	}
 

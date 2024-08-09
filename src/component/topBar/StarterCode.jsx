@@ -9,6 +9,7 @@ import { SessionContext } from '../../context/SessionContext'
 import { indentUnit } from '@codemirror/language'
 import { Typography } from '@mui/material'
 import { SelectedCodeContext } from '../../context/SelectedCodeContext'
+import { addCodeAndUpdateUser, getCodeById } from "../../service/codeService"
 import BlockpyMirror from '../code/BlockpyMirror';
 
 const StarterCode = () => {
@@ -22,7 +23,18 @@ const StarterCode = () => {
   useEffect(() => {
     console.log(session)
     if (!session || !session.test_code) return
-    setStarterCode(session.test_code.starter)
+    if(session.type.startsWith("SQL")){
+      getCodeById(session.test_code.starter).then((code)=>{
+        console.log(code)
+        if(code!=null){
+          setStarterCode(code.content)
+        }
+      })
+    }
+    else{
+      setStarterCode(session.test_code.starter)
+    }
+    
     setTemplateCode(session.test_code.template)
     setUnitTest(session.test_code.unit_test)
   }, [session])
@@ -45,6 +57,28 @@ const StarterCode = () => {
     console.log(e)
     e?.preventDefault()
     console.log(templateCode)
+    if(session.type.startsWith("SQL")){
+      const result = await addCodeAndUpdateUser(
+        starterCode,
+        0,
+        currentUser.id,
+        null
+      )
+      console.log(result)
+      const success = await updateTestCodeInSession(session.id, {
+        starter: result.code.id,
+        template: templateCode,
+        unit_test: unitTest,
+      })
+      console.log(success)
+  
+      if (success) {
+        showToast('Test updated successfully.', 'success')
+      } else {
+        showToast('Failed to update starter code.', 'error')
+      }
+      return
+    }
     const success = await updateTestCodeInSession(session.id, {
       starter: starterCode,
       template: templateCode,
@@ -66,7 +100,7 @@ const StarterCode = () => {
       </Typography>
       <div className="topbar">
         {session.test_code &&
-        starterCode === session.test_code.starter &&
+        (starterCode === session.test_code.starter||session.type.startsWith("SQL") )&&
         templateCode === session.test_code.template &&
         unitTest === session.test_code.unit_test ? (
           <></>
@@ -81,13 +115,15 @@ const StarterCode = () => {
         extensions={[python(), indentUnit.of('    ')]}
         theme={githubLight}
         value={starterCode}
-        height={currentUser?.role > 1 ? '100px' : '20vh'}
+        height={currentUser?.role > 1 ? '100px' : (session.type.startsWith("SQL")?'50vh':'200px')}
         onChange={handleStarterCodeChange}
         onBlur={handleUpdateClick}
-        editable={currentUser?.role > 1 ? false : true}
-      />
-      Student Code Template
-      {session?.type?.startsWith("Blockly") && (
+        editable={currentUser?.role > 1 ? false : true}/>
+      
+      {!session.type.startsWith("SQL") && (
+        <>
+        Student Code Template
+        {session?.type?.startsWith("Blockly") && (
           <span key={rerender}>
             <BlockpyMirror
             currentCode={templateCode}
@@ -118,6 +154,11 @@ const StarterCode = () => {
           editable={currentUser?.role > 1 ? false : true}
         />
         )}
+        
+        </>
+      )}
+      
+      
       
       Unit Test
       <CodeMirror

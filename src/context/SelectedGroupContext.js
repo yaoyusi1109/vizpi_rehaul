@@ -15,8 +15,8 @@ export const SelectedGroupProvider = ({ children }) => {
 		const fetchGroup = async () => {
 			if (!selectedGroup && currentUser && session && session.grouped) {
 				if (currentUser.role === 3) {
-					const group = await getGroupByUser(currentUser.id, session.id)
-					// console.log('selected', group)
+					const group = await getGroupByUser(currentUser.id,session.id)
+					console.log('selected', group)
 					setSelectedGroup(group)
 				}
 			}

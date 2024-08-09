@@ -25,10 +25,10 @@ function App () {
           }
         }).catch((err) => {
           console.error(err)
-          return <Navigate to="/login" />
+          return <Navigate to="/about" />
         })
       } else {
-        return <Navigate to="/login" />
+        return <Navigate to="/about" />
       }
     }
     return children

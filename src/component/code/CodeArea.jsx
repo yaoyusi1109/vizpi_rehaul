@@ -687,18 +687,7 @@ const CodeArea = ({ onCodeChange, runCode }) => {
       
     }
   }, [currentUser])
-  useEffect(() => {
-    console.log(selectedCode)
-    if(selectedCode?.content!==xml){
-      //setRerender(Date.now())
-      setUpdate(false)
-    }
-  }, [selectedCode])
 
-  useEffect(() => {
-    //onCodeChange(xml,codeText,blocksUsed)
-    //console.log("hi")
-  }, [codeText])
 
   const handleOpen = (selectedText, setMenuOpen) => {
     setCodeText(selectedText)
@@ -724,28 +713,7 @@ const CodeArea = ({ onCodeChange, runCode }) => {
     setDisabledButton(true)
   }
   
-  const workspaceChange = (workspace) => {
-    //console.log(workspace)
-    setBlocksUsed(Array.from(workspace.typedBlocksDB.keys()).join(" "))
-    const generatedCode = pythonGenerator.workspaceToCode(workspace)
-    if(generatedCode!=codeText){
-      setCodeText(generatedCode)
-      setUpdate(true)
-    }
-    
-    ////console.log(xml)
-    //onCodeChange(xml,generatedCode,[])
-  }
-  
-  const onXmlChange = (newXml) => {
-    ////console.log(newXml)
-    setXml(newXml)
-    if(update){
-      setUpdate(false)
-      onCodeChange(newXml,codeText,blocksUsed)
-    }
-    //onCodeChange(newXml,codeText,blocksUsed)
-  }
+
 
 
   return (
@@ -770,7 +738,7 @@ const CodeArea = ({ onCodeChange, runCode }) => {
           )}
         />
       )}
-      <div ref={codeRef} className="full-size" style={{height:"500px"}}>
+      <div ref={codeRef} className="full-size" style={{height:session.type?.startsWith("Blockly")?"500px":"250px"}}>
         {session.type?.startsWith("Blockly") && selectedCode!=null && (
           <span key={rerender}>
             {/* <BlocklyWorkspace 
@@ -796,14 +764,18 @@ const CodeArea = ({ onCodeChange, runCode }) => {
           </span>
         )}
         <div className="code-mirror-wrapper">
-          {!session.type?.startsWith("Blockly") && (
-            <CodeMirror
-              className="codeTextArea"
-              value={selectedCode?.content}
-              extensions={[python(), indentUnit.of('    ')]}
-              onChange={onCodeChange}
-            />
+          {!session.type?.startsWith("Blockly") && selectedCode!=null && (
+            <span key={rerender}>
+              <CodeMirror
+                className="codeTextArea"
+                value={selectedCode.content}
+                extensions={[python(), indentUnit.of('    ')]}
+                onChange={onCodeChange}
+              />
+            </span>
           )}
+          
+          
         </div>
         
         <Dialog

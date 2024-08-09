@@ -1,5 +1,7 @@
 $backgroundColor: #e0e0e0;
 $errorColor: #ff3b30;
+$buttonColor: #a9d5ff;
+$buttonShadow: rgba(126, 175, 221, 0.883);
 
 body {
   background-color: $backgroundColor;
@@ -17,14 +19,14 @@ body {
 
   .formWrapper {
     padding: 40px;
-    background-color: rgba(255, 255, 255, 0.3);
+    background-color: rgba(255, 255, 255, 0.55);
     border-radius: 15px;
-    box-shadow: -5px -5px 15px #c6c6c6, 10px 20px 40px #ffffff;
+    // box-shadow: -5px -5px 15px #c6c6c6, 10px 20px 40px #ffffff;
     max-width: 400px;
     width: 100%;
     text-align: center;
     backdrop-filter: blur(3px);
-    border: 1px solid rgba(255, 255, 255, 0.9);
+
   }
 
   @keyframes backgroundAni {
@@ -73,15 +75,18 @@ body {
       margin-bottom: 20px;
       border: none;
       border-radius: 10px;
-      background-color: $backgroundColor;
-      box-shadow: inset -4px -4px 8px #c6c6c6, inset 4px 4px 8px #ffffff;
+      background-color: #ffffff;
+      // box-shadow: inset -4px -4px 8px #c6c6c6, inset 4px 4px 8px #ffffff;
       font-size: 1em;
       color: #333;
       box-sizing: border-box;
+      border: 2px solid #ffffff;
+      transition: border 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+
 
       &:focus {
+        border: 2px solid $buttonColor;
         outline: none;
-        box-shadow: inset -2px -2px 4px #c6c6c6, inset 2px 2px 4px #ffffff;
       }
     }
 
@@ -98,15 +103,20 @@ body {
       margin-bottom: 20px;
       border: none;
       border-radius: 10px;
-      background-color: $backgroundColor;
-      box-shadow: -4px -4px 8px #c6c6c6, 4px 4px 8px #ffffff;
+      background-color: $buttonColor;
+      // box-shadow: inset -4px -4px 8px #2d84ff;
       font-size: 1em;
-      color: #333;
+      font-weight: 800;
+      color: rgb(255, 255, 255);
       cursor: pointer;
-      transition: box-shadow 0.3s ease;
-
+      
+      transition: transform 0.2s ease, color 0.2s ease, box-shadow 0.2s ease, text-shadow 0.2s ease;
+    
       &:hover {
-        box-shadow: -2px -2px 4px #c6c6c6, 2px 2px 4px #ffffff;
+        // box-shadow: 0px 2px 2px $buttonShadow, 0px 2px 2px $buttonShadow;
+        transform: translate(0px, -1px);
+        color: #ffffff;
+        text-shadow: 0px 0px 5px rgba(79, 146, 255, 0.5);
       }
     }
 
@@ -124,14 +134,14 @@ body {
     margin-bottom: 20px;
     border: none;
     border-radius: 30px;
-    background-color: $backgroundColor;
-    box-shadow: -4px -4px 8px #c6c6c6, 4px 4px 8px #ffffff;
+    background-color: $buttonColor;
+    // box-shadow: -4px -4px 8px #c6c6c6, 4px 4px 8px #ffffff;
     color: #333;
     cursor: pointer;
-    transition: box-shadow 0.3s ease;
+    transition: box-shadow transform 0.5s ease;
 
     &:hover {
-      box-shadow: -2px -2px 4px #c6c6c6, 2px 2px 4px #ffffff;
+      // box-shadow: 2px 2px 4px #c6c6c6, 2px 2px 4px #ffffff;
     }
   }
 

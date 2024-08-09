@@ -26,7 +26,7 @@ const CodeIssuePanel = () => {
   },[]);
 
   const resizeEnd = () => {
-    setRerender(Date.now())
+    setRerender({date:Date.now(),width:rerender.width})
   }
   
 

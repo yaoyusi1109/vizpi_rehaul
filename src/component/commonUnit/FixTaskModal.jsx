@@ -1,7 +1,7 @@
 import React, { useContext, useState, useRef, useEffect } from 'react'
 import { AuthContext } from '../../context/AuthContext'
 import { updateTaskInSession } from '../../service/sessionService'
-import { Button, Typography, Box, Modal } from '@mui/material'
+import { Button, Typography, Box, Modal,Grid } from '@mui/material'
 import { SessionContext } from '../../context/SessionContext'
 import '../../css/taskcard.scss'
 
@@ -44,7 +44,7 @@ const FixTaskModal = ({
 
     try {
       if (taskContent !== '') {
-        if (session.type === 'Audio') {
+        if (session?.type === 'Audio') {
           const refinedTask = await generateAudioTask(taskContent)
           setRefinedTask(refinedTask)
           setLoading(false)
@@ -77,7 +77,7 @@ const FixTaskModal = ({
       open={isModalOpen}
       onClose={(_, reason) => {
         if (reason !== 'backdropClick') {
-          handleCancelClick()
+          handleCancelClick();
         }
       }}
       aria-labelledby="ai-suggested-task-description"
@@ -89,39 +89,44 @@ const FixTaskModal = ({
             backgroundColor: 'transparent',
           },
         },
-      }}>
+      }}
+      sx={{
+        overflow: 'auto',
+        maxHeight: '70%',
+      }}
+    >
       <Box
         sx={{
           position: 'absolute',
           top: '50%',
-          right: '0',
-          transform: 'translate(-160%, -80%)',
+          right: '-5%',
+          transform: 'translate(-160%, 0)',
           width: '30%',
           bgcolor: 'background.paper',
           boxShadow: 24,
           p: 4,
           overflow: 'auto',
-          maxHeight: '90vh',
+          maxHeight: '40%',
           borderRadius: '8px',
+          display: 'flex',
+          flexDirection: 'column',
+        }}
+      >
+        <Grid container sx ={{backgroundColor: 'white', position:'sticky', top:0, zIndex: 1, borderBottom: '1px solid #e0e0e0'
         }}>
+          <Grid item xs={7}>
         <Typography variant="h6" fontWeight={'light'} gutterBottom>
           AI-Suggested Task Description
         </Typography>
-        <div
-          ref={refinedTextAreaRef}
-          style={{ color: 'black', whiteSpace: 'pre-wrap', marginTop: '16px' }}
-          dangerouslySetInnerHTML={{
-            __html: loading
-              ? 'Loading...'
-              : highlightAddedContent(taskContent, refinedTask),
-          }}
-        />
-        <Box display="flex" justifyContent="flex-end" mt={2}>
+        </Grid>
+        <Grid item xs={5}>
+        <Box display="flex" justifyContent="flex-end" mb= {2}>
           <Button
             className="action-btn"
             variant="contained"
             color="error"
-            onClick={handleCancelClick}>
+            onClick={handleCancelClick}
+          >
             Cancel
           </Button>
           <Button
@@ -129,13 +134,29 @@ const FixTaskModal = ({
             variant="contained"
             color="primary"
             onClick={handleAcceptClick}
-            disabled={loading}>
+            disabled={loading}
+            sx={{ ml: 2 }}
+          >
             Accept
           </Button>
+          
         </Box>
+        </Grid>
+        </Grid>
+        <div
+          ref={refinedTextAreaRef}
+          style={{ color: 'black', whiteSpace: 'pre-wrap', marginTop: '16px', flexGrow: 1,  overflow: 'auto' }}
+          dangerouslySetInnerHTML={{
+            __html: loading
+              ? 'Loading...'
+              : highlightAddedContent(taskContent, refinedTask),
+          }}
+        />
       </Box>
     </Modal>
-  )
+  );
+  
+  
 }
 
 export default FixTaskModal

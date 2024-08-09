@@ -62,6 +62,7 @@ const Home = React.memo(() => {
     if (currentUser !== null) return
     if (Cookies.get('VizPI_token')) {
       const token = Cookies.get('VizPI_token')
+      console.log(token)
       validateToken(token)
         .then((user) => {
           if (user) {
@@ -70,7 +71,7 @@ const Home = React.memo(() => {
         })
         .catch((err) => {
           console.error(err)
-          navigate('/login')
+          navigate('/about')
         })
     } else {
       
@@ -85,7 +86,7 @@ const Home = React.memo(() => {
         })
       }
       else{
-        navigate('/login')
+        navigate('/about')
       }
     }
   }, [])

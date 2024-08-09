@@ -17,7 +17,7 @@ const TaskPanel = () => {
   }, [])
 
   const resizeEnd = () => {
-    setRerender(Date.now())
+    setRerender({date:Date.now(),width:rerender.width})
   }
 
   const {

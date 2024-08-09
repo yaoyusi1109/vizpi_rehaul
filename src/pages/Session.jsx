@@ -4,9 +4,16 @@ import { AuthContext } from '../context/AuthContext'
 import Loading from '../component/commonUnit/Loading'
 import SessionTable from '../component/session/SessionTable'
 import UserProfileSession from '../component/topBar/UserProfileSession'
+import { useNavigate } from 'react-router-dom'
+
 
 const Session = () => {
   const { currentUser } = useContext(AuthContext)
+  
+  const navigate = useNavigate();
+  const handleHomePage = () => {
+    navigate('/about')
+  }
 
   if (!currentUser) return <Loading />
 
@@ -31,11 +38,16 @@ const Session = () => {
       }}>
       VizPI
     </Typography>
-    <Button
+    {/* <Button
     href="/"
       sx={{ my: 2, color: 'white', display: 'block' }}>
       Session List
-    </Button>
+    </Button> */}
+    <Button
+        onClick={handleHomePage}
+        sx={{ my: 2, color: 'white', display: 'block' }}>
+        Homepage
+      </Button>
     </div>
     <UserProfileSession />
   </div>

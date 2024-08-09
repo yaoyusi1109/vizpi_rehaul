@@ -28,6 +28,7 @@ import {
 } from '../../service/sessionService'
 import { SubmissionsContext } from '../../context/SubmissionsContext'
 import { showToast } from '../commonUnit/Toast'
+import { useNavigate } from 'react-router-dom'
 
 const pages = ['Products', 'Pricing', 'Blog']
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout']
@@ -39,6 +40,8 @@ function HeaderBanner() {
   const { session, setSession, link } = useContext(SessionContext)
   const { Mode, setMode } = useContext(ModeContext)
   const { regroupingCheck } = useContext(AutoGroupingContext)
+  const navigate = useNavigate();
+
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget)
@@ -85,6 +88,9 @@ function HeaderBanner() {
     } catch (err) {
       console.error('Failed to sign out:', err)
     }
+  }
+  const handleHomePage = () => {
+    navigate('/about')
   }
 
   const handleQuitSession = () => {
@@ -169,6 +175,11 @@ function HeaderBanner() {
                   onClick={handleQuitSession}
                   sx={{ my: 2, color: 'white', display: 'block' }}>
                   Session List
+                </Button>
+                <Button
+                  onClick={handleHomePage}
+                  sx={{ my: 2, color: 'white', display: 'block' }}>
+                  Homepage
                 </Button>
               </>
             ) : null}

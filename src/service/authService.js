@@ -32,14 +32,38 @@ export const validateToken = async (token) => {
     token: token
   }).then((response) => {
     instructor = response.data
-    instructor.session_id = instructor.current_session
+    if(instructor.role == 1){
+      instructor.session_id = instructor.current_session
+    }
   }).catch((error) => {
     throw error
   })
   return instructor
 }
 
+export const sendRecoveryEmail = async (email) => {
+  if (!email) {
+    //console.log("can't update")
+    return false
+  }
+  console.log({
+    email: email,
+  })
+  try {
+    let res = await axios.post(process.env.REACT_APP_HOST_API + '/recover', {
+      email: email,
+    })
+    console.log(res)
+    return res
+  }
+  catch (err) {
+    //console.log(err)
+    return err
+  }
+}
+
 export const signOut = async () => {
   Cookies.remove('VizPI_token')
+  Cookies.remove('VisPI_userId')
   return true
 }

@@ -10,7 +10,9 @@ import Divider from '@mui/joy/Divider';
 import autoGroup from '../../icon/SettingPassRate.png';
 import '../../css/landing/aboutTutorial.scss';
 import blockly from '../../icon/about/Blockly.png';
+import autoGroupFeature from '../../icon/about/tutorial/autoGrouping/features.png';
 import { Link, useNavigate } from 'react-router-dom';
+
 
 
 const contentArrays = {
@@ -19,13 +21,9 @@ const contentArrays = {
             title: 'Exersice Features',
             content: [
                 {
-                    text: "lorem ipsum dolor sit amet, consectetur adipisicing elit. In maiores ullam provident odio quidem, quas, voluptates, quos doloremque quia quibusdam                     Lorem ipsum dolor sit amet, consectetur adipisicing elit. Blanditiis possimus quos numquam expedita magni, vel, ex aliquam inventore nihil libero voluptatem adipisci at molestias ducimus ipsa sunt? Quidem, rerum! Dolor? lorem ipsum dolor sit amet, consectetur adipisicing elit. In maiores ullam provident odio quidem, quas, voluptates, quos doloremque quia quibusdam                     Lorem ipsum dolor sit amet, consectetur adipisicing elit. Blanditiis possimus quos numquam expedita magni, vel, ex aliquam inventore nihil libero voluptatem adipisci at molestias ducimus ipsa sunt? Quidem, rerum! Dolor? ",
-                    images: [blockly, blockly]
+                    text: "Auto Grouping is an exercise that automatically groups students once 33% of the class has successfully completed all the tasks. It ensures that each group includes at least one student who has mastered the exercise and can assist other group members through a real-time chat system. Once the pass rate reaches a second threshold, 66% of overall passrate, students are regrouped. Instructors can monitor each group's conversation and coding progress, receiving instant feedback on the students' activities. Our mission is to determine whether peer instruction and real-time discussion enhance students' understanding of the tasks by collecting real-time data while assisting students during coding sessions.",
+                    images: [autoGroupFeature]
                 },
-                {
-                    text: "Description for Auto Grouping Step 2...",
-                    images: [blockly, blockly]
-                }
             ]
         },
         {
@@ -276,7 +274,7 @@ const AboutTutorial = ({ exercise, onClose }) => {
                                         </Typography>
                                         <div >
                                             {item.images.map((src, imgIndex) => (
-                                                <img key={imgIndex} src={src} alt={`${step.title} Image ${imgIndex + 1}`} style={{ width: '100%', borderRadius: '8px' }} />
+                                                <img className="tutorial-modal-image" key={imgIndex} src={src} alt={`${step.title} Image ${imgIndex + 1}`}  />
                                             ))}
                                         </div>
                                     </div>

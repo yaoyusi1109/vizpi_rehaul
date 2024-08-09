@@ -20,6 +20,8 @@ const articles = [
 ];
 
 const FindingsContainer = styled.div`
+  width: 70%;
+  margin: 0 auto;
   padding: 20px;
 `;
 
@@ -110,7 +112,7 @@ const Articles = () => {
   return (
     <FindingsContainer>
       <HeaderContainer>
-        <HeaderText variant='h2'>
+        <HeaderText variant='h3' sx ={{fontWeight:"500", marginTop: 1, padding: "15px"}}>
           Previous Findings
         </HeaderText>
         <IntroText variant='body1'>

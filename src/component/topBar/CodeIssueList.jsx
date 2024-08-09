@@ -76,6 +76,38 @@ export default function CodeIssueList() {
 		
 	};
 	const fetchNotPassedSubmissions = () => {
+		console.log(submissions)
+		// if(session.type.startsWith("SQL")){
+		// 	let notPassedSubmissions = submissions.filter(
+		// 		(submission) =>
+		// 			submission.error==null
+		// 	);
+		// 	let notPassedError = {
+		// 		errorType: "Not Passed",
+		// 		errorContents: [],
+		// 		count: 0,
+		// 		users: [],
+		// 		codeids: [],
+		// 	};
+
+		// 	notPassedSubmissions.forEach((submission) => {
+		// 		getCodeById(submission.code_id).then((code)=>{
+		// 			console.log(code)
+		// 			if(code.passrate != 100){
+		// 				notPassedError.errorContents.push(
+		// 					"Runs successfully but does not pass all tests"
+		// 				);
+		// 				notPassedError.count += 1;
+		// 				notPassedError.users.push(submission.id);
+		// 				notPassedError.codeids.push(submission.code_id);
+		// 			}
+		// 		})
+				
+		// 	});
+	
+		// 	setNotPassedError(notPassedError);
+		// 	return
+		// }
 		let notPassedSubmissions = submissions.filter(
 			(submission) =>
 				submission.result_list &&
@@ -102,6 +134,7 @@ export default function CodeIssueList() {
 		setNotPassedError(notPassedError);
 	};
 	const fetchErrors = () => {
+		console.log(submissions)
 		let errors = submissions
 			.filter((submission) => submission.error !== null)
 			.map((submission) => {
@@ -114,6 +147,11 @@ export default function CodeIssueList() {
 		const errorMap = {};
 
 		errors.forEach((error) => {
+			if(session.type?.startsWith("SQL")){
+				let temp = error.errorType
+				error.errorType = error.errorContent
+				error.errorContent=temp
+			}
 			// If the errorType doesn't exist in errorMap, initialize it
 			if (!errorMap[error.errorType]) {
 				errorMap[error.errorType] = {
@@ -165,7 +203,7 @@ export default function CodeIssueList() {
 		<>
 		<div className="outter-box">
 			<div className="group-info-test upper-box" >
-				{ session.type=="Helper/Helpee"? (
+				{ session.type=="Helper/Helpee"|| session.type.startsWith("SQL")? (
 					<Button
 					onClick={() =>setSwap(!swap)}
 					>

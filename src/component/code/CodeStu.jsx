@@ -23,14 +23,14 @@ import { ErrorContext } from '../../context/ErrorContext'
 import Alert from '@mui/material/Alert'
 import { toast } from 'react-toastify'
 import '../../css/code.scss'
-import { Box, Button } from '@mui/material'
+import { Box, Button, Divider, Grid  } from '@mui/material'
 import { getUserById, getUserInSession } from '../../service/userService'
 import { extractErrorInfo } from '../../service/errorService'
 import Typography from '@mui/material/Typography'
 import { TestResultContext } from '../../context/TestResultContext'
 import { PresenterListContext } from '../../context/PresenterListContext'
 import { SelectedGroupContext } from '../../context/SelectedGroupContext'
-import { getCodeById } from '../../service/codeService'
+import { getCodeById, runCode } from '../../service/codeService'
 import { SubmissionsContext } from '../../context/SubmissionsContext'
 import { Modal } from '@mui/material'
 import TextField from '@mui/material/TextField'
@@ -38,24 +38,23 @@ import { Textarea } from '@mui/joy'
 
 const CodeStu = () => {
   const { currentUser } = useContext(AuthContext)
-  const { selectedCode, setSelectedCode } = useContext(SelectedCodeContext)
+  const { selectedCode, setSelectedCode, keystrokes, setKeystrokes, latestCodeId, setLatestCodeId, output, setOutput, rerender, setRerender } = useContext(SelectedCodeContext)
   const { selectedGroup, setSelectedGroup} = useContext(SelectedGroupContext)
   const { Mode } = useContext(ModeContext)
   const { error } = useContext(ErrorContext)
   const [codeContent, setCodeContent] = useState('')
   const [blocklyCode, setBlocklyCode] = useState('')
   const [role, setRole] = useState(currentUser.role)
-  const [latestCodeId, setLatestCodeId] = useState('')
   const { session } = useContext(SessionContext)
   //usestate to store the output of the python interpreter
-  const [output, setOutput] = useState('')
   const [Err, setError] = useState('')
   const [isRunning, setIsRunning] = useState(false)
   const [user, setUser] = useState('No User Selected')
   const [passRate, setPassRate] = useState(0)
   const { setTestResult } = useContext(TestResultContext)
   const { codeList, setCodeList } = useContext(PresenterListContext)
-  const [keystrokes, setKeystrokes] = useState([])
+  const [results, setResults] = useState([])
+  const [expectedResults, setExpectedResults] = useState([])
   // const { submissions } = useContext(SubmissionsContext)
   const [open, setOpen] = useState(false)
   const [name, setName] = useState('')
@@ -111,6 +110,9 @@ const CodeStu = () => {
       })
     }
   }, [selectedGroup])
+  useEffect(() => {
+    console.log(rerender)
+  }, [rerender])
 
   if (!session) return null
 
@@ -143,7 +145,7 @@ const CodeStu = () => {
       ).then((result)=>{
         if (result.success) {
           if(session.type == "Blockly"){
-            showToast('Code saved successfully!', 'success', 2000)
+            //showToast('Code saved successfully!', 'success', 2000)
           }
           
           //setSelectedCode(result.code)
@@ -251,6 +253,7 @@ const CodeStu = () => {
   }
 
   const run = async (e) => {
+    console.log(session.type)
     setIsRunning(true)
     const toastId = toast.info('Executing code...', { autoClose: false })
     const starterCode = session.test_code.starter
@@ -299,18 +302,97 @@ const CodeStu = () => {
     }
 
     //Save Code
-    const code = await handleSaveCode(passrate, pythonResult)
-    if (code) {
-      const submission = createSubmission(
-        currentUser.id,
-        code.id,
-        session.id,
-        pythonResult,
-        passrate,
-        createErr(pythonStdErr)
-      )
-      await updateSubmission(submission)
+    if(selectedCode.creater_id==currentUser.id){
+      const code = await handleSaveCode(passrate, pythonResult)
+      if (code) {
+        const submission = createSubmission(
+          currentUser.id,
+          code.id,
+          session.id,
+          pythonResult,
+          passrate,
+          createErr(pythonStdErr)
+        )
+        await updateSubmission(submission)
+      }
     }
+    
+  }
+  const runSQL = async (e) => {
+    setIsRunning(true)
+    const toastId = toast.info('Executing code...', { autoClose: false })
+    const unitTest = session.test_code.unit_test
+    
+
+    let result = await runCode(codeContent,unitTest,session.type==="SQL Schema"?"Schema":"Select",session.id)
+    console.log(result)
+    let pRate = 0
+    let error = null
+    if(result.message!=null){
+      error = result
+      setOutput(result.message)
+      setResults([])
+      setExpectedResults([])
+      pRate = 0
+    }
+    else{
+      let passR = result.result
+      pRate = passR
+      let tables
+      let expected
+      if(session.type == "SQL Schema"){
+        for(let i = 0;i<result.data[0].values.length;i++){
+          result.data[i+1].name = result.data[0].values[i]
+        }
+        for(let i = 0;i<result.expected[0].values.length;i++){
+          result.expected[i+1].name = result.expected[0].values[i]
+        }
+        tables = result.data.slice(1)
+        expected = result.expected.slice(1)
+        console.log(tables)
+        console.log(expected)
+      }
+      else{
+        tables = result.data
+        expected = result.expected
+        console.log(tables)
+        console.log(expected)
+      }
+      
+      if(passR === 100){
+        setOutput("Success")
+        setResults([])
+        setExpectedResults([])
+      }
+      else{
+        setOutput("Failed")
+        setResults(tables)
+        setExpectedResults(expected)
+      }
+      
+    }
+    
+    setError('')
+    console.log(selectedCode)
+    console.log(codeContent)
+    if(selectedCode?.creater_id==null || selectedCode.creater_id==currentUser.id){
+      const code = await handleSaveCode(pRate, null)
+      if (code) {
+        const submission = createSubmission(
+          currentUser.id,
+          code.id,
+          session.id,
+          null,
+          pRate,
+          error
+        )
+        await updateSubmission(submission)
+      }
+    }
+    setIsRunning(false)
+    toast.dismiss(toastId)
+    //Save Code
+    
   }
 
   
@@ -323,6 +405,13 @@ const CodeStu = () => {
       return message
     })
   }
+  Array.prototype.containsArray = function(val) {
+    var hash = {};
+    for(var i=0; i<this.length; i++) {
+        hash[this[i]] = i;
+    }
+    return hash.hasOwnProperty(val);
+  }
 
   return (
     <div className="code-container">
@@ -334,7 +423,7 @@ const CodeStu = () => {
             <CodeBar
               handleSaveCode={handleSaveCode}
               latestCodeId={latestCodeId}
-              runCode={run}
+              runCode={session.type?.startsWith("SQL")?runSQL:run}
               isRunning={isRunning}
             />
 
@@ -343,15 +432,141 @@ const CodeStu = () => {
               saveCode={handleSaveCode}
             />
           </div>
-          {/* <div className="container">
-            <TestSelect />
-          </div> */}
           <div className="container">
-            {/* <TestSelect /> */}
-            <Typography variant="h6" sx={{ fontWeight: 'light' }}>
-              Output
-            </Typography>
-            <PythonInterpreter output={output} />
+            {session.type?.startsWith("SQL") &&(
+              <span key={rerender}>
+                <div style={{display:"flex",overflowX:"scroll",marginTop:".5em", maxWidth:rerender.right}}>
+                  <div>
+                    <Typography>Your Output</Typography>
+                    <div >
+                      <div >
+                        <Grid container  >
+                          {results.map(({ columns, values, name }, i) => (
+                            <table>
+                              <caption>{name}</caption>
+                              <thead>
+                                <tr>
+                                  {columns.map((columnName, j) => {
+
+                                  if(expectedResults[i]!==undefined&&expectedResults[i]?.columns[j]!==undefined &&expectedResults[i]?.columns[j]===results[i]?.columns[j]){
+                                    return (
+                                      <td style={{backgroundColor:"#ffffff"}} key={j}>{columnName}</td>
+                                    )
+                                  }
+                                  else{
+                                    return (
+                                      <td style={{backgroundColor:"#EE4B2B"}} key={j}>{columnName}</td>
+                                    )
+                                  }
+
+                                })}
+                                </tr>
+                              </thead>
+
+                              <tbody>
+                                {
+                                  // values is an array of arrays representing the results of the query
+                                  values.map((row, j) => (
+                                    <tr key={j}>
+                                      {row.map((value, k) => {
+
+                                        if(results[i]!==undefined&&((expectedResults[i]?.values?.containsArray(results[i]?.values[j]))||(expectedResults[i]?.values[j]!==undefined &&expectedResults[i]?.values[j][k]!==undefined&&expectedResults[i]?.values[j][k]===results[i]?.values[j][k]))){
+                                          return (
+                                            <td style={{backgroundColor:"#ffffff"}} key={k}>{value}</td>
+                                          )
+                                        }
+                                        else{
+                                          return (
+                                            <td style={{backgroundColor:"#EE4B2B"}} key={k}>{value}</td>
+                                          )
+                                        }
+
+                                        
+                                      })}
+                                    </tr>
+                                  ))
+                                }
+                              </tbody>
+                            </table>
+                          ))}
+                        </Grid>
+                        
+                      </div>
+                    </div>
+                  </div>
+                  <Divider orientation="vertical" flexItem />
+                  <div >
+                    {expectedResults.length>0 &&(
+                      <Typography>Expected Output</Typography>
+                    )}
+                    <div >
+                      <div >
+                        <Grid container  >
+                          {expectedResults.map(({ columns, values, name }, i) => (
+                            <table>
+                              <caption>{name}</caption>
+                              <thead>
+                                <tr>
+                                  {columns.map((columnName, j) => {
+
+                                    if(results[i]!==undefined&&results[i]?.columns[j]!==undefined &&results[i]?.columns[j]===expectedResults[i]?.columns[j]){
+                                      return (
+                                        <td style={{backgroundColor:"#ffffff"}} key={j}>{columnName}</td>
+                                      )
+                                    }
+                                    else{
+                                      return (
+                                        <td style={{backgroundColor:"#32CD32"}} key={j}>{columnName}</td>
+                                      )
+                                    }
+
+                                  })}
+                                </tr>
+                              </thead>
+
+                              <tbody>
+                                {
+                                  // values is an array of arrays representing the results of the query
+                                  values.map((row, j) => (
+                                    <tr key={j}>
+                                      {row.map((value, k) => {
+
+                                        if(results[i]!==undefined&&((results[i]?.values?.containsArray(expectedResults[i]?.values[j]))||(results[i]?.values[j]!==undefined &&results[i]?.values[j][k]!==undefined&&results[i]?.values[j][k]===expectedResults[i]?.values[j][k]))){
+                                          return (
+                                            <td style={{backgroundColor:"#ffffff"}} key={k}>{value}</td>
+                                          )
+                                        }
+                                        else{
+                                          return (
+                                            <td style={{backgroundColor:"#32CD32"}} key={k}>{value}</td>
+                                          )
+                                        }
+                                        
+                                      })}
+                                    </tr>
+                                  ))
+                                }
+                              </tbody>
+                            </table>
+                          ))}
+                        </Grid>
+                        
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </span>
+              
+              
+            )}
+            {!session.type.startsWith("SQL") && (
+              <>
+                <Typography variant="h6" sx={{ fontWeight: 'light' }}>
+                  Output
+                </Typography>
+                <PythonInterpreter output={output} />
+              </>
+            )}
           </div>
           <Toast />
         </div>

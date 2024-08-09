@@ -87,6 +87,8 @@ const AddSessionDialog = ({ open, setOpen, handleAddSession }) => {
             <MenuItem value={'Blockly'}>Blockly</MenuItem>
 			      <MenuItem value={'Blockly Shared'}>Blockly Shared</MenuItem>
             <MenuItem value={'Vizmental'}>Vizmental</MenuItem>
+            <MenuItem value={'SQL Schema'}>SQL Schema</MenuItem>
+            <MenuItem value={'SQL Select'}>SQL Select</MenuItem>
             {/* 
 						<MenuItem value={'Peer Instruction'}>Peer Instruction</MenuItem> */}
           </Select>

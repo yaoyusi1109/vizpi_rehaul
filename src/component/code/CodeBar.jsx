@@ -25,10 +25,11 @@ import { SessionContext } from '../../context/SessionContext'
 import { showToast } from '../commonUnit/Toast'
 import { SelectedGroupContext } from '../../context/SelectedGroupContext'
 import {getUserById} from '../../service/userService'
+import { addCodeAndUpdateUser } from '../../service/codeService'
 
 //Passing runCode function down to CodeBar component. runCode function is defined in Code.jsx
 const CodeBar = ({ latestCodeId, runCode, isRunning }) => {
-  const { selectedCode, setSelectedCode } = useContext(SelectedCodeContext)
+  const { selectedCode, setSelectedCode, keystrokes, setKeystrokes, setLatestCodeId, rerender, setRerender  } = useContext(SelectedCodeContext)
   const { currentUser } = useContext(AuthContext)
   const { session } = useContext(SessionContext)
   const { waiting, setWaiting } = useContext(SelectedGroupContext)
@@ -75,25 +76,51 @@ const CodeBar = ({ latestCodeId, runCode, isRunning }) => {
               //console.log(code)
             })
           }
-          else
+          else{
             setSelectedCode({
               content: session?.test_code?.template,
               passrate: 0,
             })
-          //console.log(code)
+          }
+          setRerender({date:Date.now(),width:rerender.width})
         })
       }
       
     })
     showToast('Code updated', 'success')
+    setKeystrokes([])
   }
 
   const resetCode = () => {
-    setSelectedCode({
-      content: session.test_code.template,
-      passrate: 0,
+    let history = {
+      location: 0,
+      insert: false,
+      value: null,
+      length: selectedCode.content.length,
+      time: new Date(),
+    }
+    addCodeAndUpdateUser(
+      session.test_code.template,
+      0,
+      currentUser.id,
+      [history]
+    ).then((result)=>{
+      console.log(result)
+      if (result.success) {
+        showToast('Code saved successfully!', 'success', 2000)
+        setSelectedCode({
+          content: session?.test_code?.template,
+          passrate: 0,
+        })
+        setLatestCodeId(result.code.id)
+        setKeystrokes([])
+        setRerender({date:Date.now(),width:rerender.width})
+      } else {
+        showToast('Code saved failed!', 'error', 2000)
+        //console.log('Error:', result.error)
+      }
     })
-    showToast('Code reset', 'success')
+    
   }
 
   const clickCode = (event,params) => {
@@ -306,7 +333,7 @@ const CodeBar = ({ latestCodeId, runCode, isRunning }) => {
                 height={350}
                 onMarkClick={clickCode}
                 />
-                {session.type =="Helper/Helpee" ? (
+                {session.type =="Helper/Helpee"|| session.type.startsWith("SQL") ? (
                   <>
                   
                     <pre>#{place} Helper</pre>
@@ -398,7 +425,7 @@ const CodeBar = ({ latestCodeId, runCode, isRunning }) => {
           </>
         ) : null}
       </div>
-      {currentUser.role === 3 && session.type==="Helper/Helpee" && !waiting  ? (
+      {currentUser.role === 3 && (session.type==="Helper/Helpee"|| session.type.startsWith("SQL")) && !waiting  ? (
         <div>
           <button className="codeButton" onClick={selectedCode?.passrate==100?addToHelpers:addToHelpees} disabled={isRunning}>
             {selectedCode?.passrate==100?"Offer Help to Others":"Ask for help"}

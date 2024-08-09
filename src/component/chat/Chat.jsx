@@ -80,7 +80,7 @@ const Chat = () => {
             'Why am I getting a ' + textError.actualError + ' error?'
           )
         }
-        submission?.result_list.forEach((result, index) => {
+        submission?.result_list?.forEach((result, index) => {
           if (!result) {
             questions.push(
               'How to pass the ' + session.test_list[index].testName + ' test?'
@@ -264,7 +264,7 @@ const Chat = () => {
 
   if (!selectedGroup) {
     if (currentUser.role === 3) {
-      if (session.type === 'Helper/Helpee') {
+      if (session.type === 'Helper/Helpee' || session.type.startsWith("SQL")) {
         return (
           <div className="chat">
             Use the 'Ask for Help' or 'Offer Help to Others' button to help and
