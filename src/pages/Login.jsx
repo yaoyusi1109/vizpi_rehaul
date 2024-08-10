@@ -8,6 +8,7 @@ const Login = () => {
   const [err, setErr] = useState(false)
   const navigate = useNavigate()
   const { currentUser, setCurrentUser } = useContext(AuthContext)
+  const [isLogin, setIsLogin] = useState(false)
   const handleHomePage = () => {
     navigate('/about')
   }
