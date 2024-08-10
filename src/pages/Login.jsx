@@ -20,6 +20,7 @@ const Login = () => {
     const password = e.target[1].value
 
     try {
+      setIsLogin(true)
       await signInWithEmailAndPassword(email, password)
       navigate('/')
     } catch (err) {
@@ -31,6 +32,8 @@ const Login = () => {
         setErr('Something went wrong')
       }
       console.error(err)
+    }finally{
+      setIsLogin(false)
     }
   }
 
@@ -41,7 +44,6 @@ const Login = () => {
         <form onSubmit={handleSubmit} className='loginForm'>
           <input type="email" placeholder="email" />
           <input type="password" placeholder="password" />
-          <div className='loginButton'><button>Sign in</button></div>
           <div className='loginButton'>
             <button disabled={isLogin}>{isLogin ?
               <div className='spinContainer'>
