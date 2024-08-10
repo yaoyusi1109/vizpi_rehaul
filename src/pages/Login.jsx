@@ -3,6 +3,7 @@ import { useNavigate, Link } from 'react-router-dom'
 import { signInWithEmailAndPassword } from '../service/authService'
 import { AuthContext } from '../context/AuthContext'
 import Cookies from 'js-cookie'
+import { CachedOutlined }from '@mui/icons-material'
 
 const Login = () => {
   const [err, setErr] = useState(false)
@@ -41,6 +42,15 @@ const Login = () => {
           <input type="email" placeholder="email" />
           <input type="password" placeholder="password" />
           <div className='loginButton'><button>Sign in</button></div>
+          <div className='loginButton'>
+            <button disabled={isLogin}>{isLogin ?
+              <div className='spinContainer'>
+                <CachedOutlined className='spin'/> 
+                be logging in
+              </div>
+              : 'Sign in'}
+            </button>
+          </div>
           <button onClick={handleHomePage}>
           Homepage
           </button>
